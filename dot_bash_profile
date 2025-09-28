@@ -5,4 +5,12 @@ if [ -f ~/.bashrc ]; then
     . ~/.bashrc
 fi
 
+if which fedora-repoquery &> /dev/null; then
+  (
+    . /etc/os-release
+    # VERSION_ID = 41
+    fedora-repoquery --list | grep -E '^f' | grep -v -E 'pending$' | grep -A1 "^f${VERSION_ID}" | grep -v "^f${VERSION_ID}"
+  )
+fi
+
 # User specific environment and startup programs

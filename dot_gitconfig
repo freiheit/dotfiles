@@ -3,5 +3,6 @@
 [user]
 	email = git@freiheit.wtf
 	name = freiheit
+	signingkey = /home/eric/.ssh/id_rsa.pub
 [gpg]
 	format = ssh

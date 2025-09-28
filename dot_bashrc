@@ -24,9 +24,12 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
-eval -- "$(/home/linuxbrew/.linuxbrew/bin/starship init bash --print-full-init)"
+eval -- "$(starship init bash --print-full-init)"
+
 ### bling.sh source start
 test -f /usr/share/bazzite-cli/bling.sh && source /usr/share/bazzite-cli/bling.sh
 ### bling.sh source end

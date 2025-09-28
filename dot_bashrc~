@@ -12,7 +12,7 @@ fi
 export PATH
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
-export SYSTEMD_PAGER=
+# export SYSTEMD_PAGER=
 
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
@@ -29,12 +29,6 @@ if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
 fi
 
 eval -- "$(starship init bash --print-full-init)"
-
-if which joe &> /dev/null; then
-  EDITOR=joe
-  VISUAL=joe
-  export EDITOR VISUAL
-fi
 
 ### bling.sh source start
 test -f /usr/share/bazzite-cli/bling.sh && source /usr/share/bazzite-cli/bling.sh

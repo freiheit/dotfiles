@@ -1,4 +1,0 @@
-#!/bin/bash
-
-echo === Commit all changes
-chezmoi managed | xargs chezmoi add --recursive=false --keep-going --verbose

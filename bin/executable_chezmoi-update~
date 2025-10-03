@@ -10,12 +10,3 @@ echo === Commit and push
 chezmoi git add .
 chezmoi git commit
 chezmoi git push
-
-echo === Pulling updates down to elsewhere
-sudo -E chezmoi update
-distrobox-list  | 
-  cut -d'|' -f2 |
-  tr -d ' '     | 
-  tail -n +2    | 
-  xargs -I{}    \
-    distrobox-enter --name {} -- chezmoi update

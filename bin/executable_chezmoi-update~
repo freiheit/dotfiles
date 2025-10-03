@@ -2,11 +2,3 @@
 
 echo === Commit all changes
 chezmoi managed | xargs chezmoi add --recursive=false --keep-going --verbose
-
-echo === Update from git
-chezmoi update
-
-echo === Commit and push
-chezmoi git add .
-chezmoi git commit
-chezmoi git push

@@ -11,8 +11,10 @@ chezmoi git add .
 chezmoi git commit
 chezmoi git push
 
-echo === Pulling updates down to elsewhere
+echo === Pulling updates down to elsewhere ===
+echo === sudo ===
 sudo -E chezmoi update
+echo === distrobox-list/enter ===
 distrobox-list  | 
   cut -d'|' -f2 |
   tr -d ' '     | 

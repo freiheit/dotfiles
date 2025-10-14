@@ -3,15 +3,20 @@
 # ujust update
 ## under hood, runs:
 
-# Source brew if we are not in an interactive session
+echo === Source brew if we are not in an interactive session
 [[ $- != *i* ]] && source <(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
+echo === run topgrade ===
 #/usr/bin/topgrade --config /usr/share/ublue-os/topgrade.toml --keep
 /usr/bin/topgrade --config /usr/share/ublue-os/topgrade.toml --skip-notify
 
-distrobox-list  | 
-  cut -d'|' -f2 |
-  tr -d ' '     | 
-  tail -n +2    | 
-  xargs -I{}    \
-    distrobox-enter --name {} -- sudo yum upgrade
+echo === get list of distroboxes ===
+DBOXES=$(distrobox-list | cut -d'|' -f2 | tr -d ' ' | tail -n +2)
+
+echo === Working through distrobox list: $DBOXES ===
+for dbox in "$DBOXES"; do
+  echo === Update $dbox ===
+  distrobox-enter --name $dbox -- sudo yum upgrade
+done
+
+echo === ALL DONE ===

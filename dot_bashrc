@@ -5,11 +5,41 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+# set PATH so it includes user's private bin if it exists
+if ! [[ "$PATH" =~ "$HOME/bin" ]]
+then
+    if [ -d "$HOME/bin" ] ; then
+        PATH="$HOME/bin:$PATH"
+    fi
 fi
+
+if ! [[ "$PATH" =~ "$HOME/.local/bin" ]]
+then
+    if [ -d "$HOME/.local/bin" ] ; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
+fi
+
+if ! [[ "$PATH" =~ "$HOME/.carg/bin" ]]
+then
+    if [ -d "$HOME/.cargo/bin" ] ; then
+        PATH="$HOME/.cargo/bin:$PATH"
+    fi
+fi
+
 export PATH
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 export SYSTEMD_PAGER=

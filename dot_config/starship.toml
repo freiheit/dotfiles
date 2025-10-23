@@ -1,0 +1,329 @@
+# This line needs to be before any sections:
+palette = "catppuccin_mocha"
+
+format = """
+$status\
+[](peach)\
+$directory\
+$direenv\
+[](fg:peach bg:yellow)\
+$git_branch\
+$git_status\
+$git_state\
+$git_metrics\
+[](fg:yellow bg:green)\
+$c\
+$cpp\
+$cmake\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+[](fg:green bg:sapphire)\
+$custom\
+[ ](fg:sapphire)\
+$cmd_duration\
+$line_break\
+[](red)\
+$os\
+$username\
+$hostname\
+$memory_usage\
+$battery\
+$container\
+$jobs\
+$time\
+[ ](red)\
+$shlvl\
+$character"""
+
+# from https://github.com/catppuccin/starship
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+lattered = "#d20f39"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+lattegreen = "#40a02b"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+[os]
+disabled = false
+format = '[$symbol$version]($style)'
+style = "bg:red fg:crust"
+
+[os.symbols]
+AlmaLinux = ""
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = ""
+Fedora = ""
+FreeBSD = ""
+Gentoo = "󰣨"
+Linux = ""
+Macos = ""
+Manjaro = ""
+Mint = "󰣭"
+NixOS = ""
+openSUSE = ""
+Pop = ""
+Raspbian = "󰐿"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+RockyLinux = ""
+SUSE = ""
+Ubuntu = ""
+Unknown = ""
+Windows = "󰖳"
+
+#[shell]
+#disabled = false
+
+[hostname]
+#disabled = false
+ssh_only = true
+#trim_at = ".sonic.net"
+style = "bold green"
+format = "@[$hostname ]($style)"
+#ssh_symbol = " "
+ssh_symbol = ""
+
+[username]
+#show_always = true
+disabled = false
+style_user = "bg:red fg:crust"
+style_root = "bg:red fg:crust"
+format = '[ $user]($style)'
+
+#[directory]
+#truncation_length = 4
+#truncate_to_repo = false
+#format = "[ $path ]($style)"
+#truncation_symbol = "…/"
+#repo_root_style = "bg:peach fg:crust"
+#read_only = ""
+#style = "bg:peach fg:crust"
+
+[directory]
+style = "bg:peach fg:crust"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"~" = " "
+"Code" = "󰲋 "
+"~/Code" = "󰲋 "
+"Developer" = "󰲋 "
+"~/Developer" = "󰲋 "
+"Documents" = "󰈙 "
+"~/Documents" = "󰈙 "
+"Downloads" = " "
+"~/Downloads" = " "
+"GoogleDrive" = " "
+"Music" = "󰝚 "
+"~/Music" = "󰝚 "
+"Pictures" = " "
+"~/Pictures" = " "
+"repos" = "󰲋 "
+"Repos" = "󰲋 "
+"~/repos" = "󰲋 "
+"~/Repos" = "󰲋 "
+
+
+[time]
+#disabled = false
+use_12hr = true
+time_range = '16:00:00-09:30:00'
+style = "bg:red"
+format = '[[ $time ](fg:crust bg:red)]($style)'
+time_format="%-I:%M%P"
+
+[[battery.display]]
+threshold = 75
+style = "bg:sapphire fg:crust"
+
+[memory_usage]
+#symbol = " "
+disabled = false
+style = "bg:red fg:crust"
+format = "[ $symbol${ram}(|${swap}) ]($style)"
+#symbol = ""
+#symbol = "󰍛"
+symbol = ""
+
+[shlvl]
+disabled = false
+#style = "bg:red fg:crust"
+format = "[$symbol$shlvl]($style)"
+symbol = "↕"
+
+[status]
+disabled = false
+style = "bg:lattered fg:subtext1"
+format = "[](bg:subtest1 fg:lattered)[ $symbol$status ]($style)[\n](bg:subtest1 fg:lattered)"
+
+[git_branch]
+format = '[[ $symbol$branch ](fg:crust bg:yellow)]($style)'
+symbol = ""
+truncation_length = 16
+style = "bg:yellow"
+
+
+[git_status]
+style = "bg:yellow"
+format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+
+[git_metrics]
+#disabled = false
+added_style = "bg:yellow fg:lattegreen"
+deleted_style = "bg:yellow fg:lattered"
+format = '([+$added ]($added_style))([-$deleted ]($deleted_style))'
+
+[nodejs]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[c]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[cpp]
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[php]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[java]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+
+[python]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol($version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:sapphire"
+format = '[[ $symbol($context) ](fg:crust bg:sapphire)]($style)'
+
+[container]
+style = "bg:sapphire"
+format = '[[ $symbol($context) ](fg:crust bg:sapphire)]($style)'
+
+[conda]
+symbol = ""
+style = "fg:crust bg:sapphire"
+format = '[$symbol$environment ]($style)'
+ignore_base = false
+
+[custom.ssh_no_keys]
+description = "SSH missing keys"
+when = "ssh-add -l | grep -q 'no identities'"
+command = "echo "
+format = "[ $symbol$output]($style)"
+shell = ["bash", "--noprofile", "--norc"]
+symbol = ""
+style = "fg:crust bg:sapphire"
+
+[custom.ssh_keys]
+description = "SSH key count"
+when = "ssh-add -l | grep -v -q 'no identities'"
+command = "ssh-add -l | grep -v 'no identities' | wc -l"
+format = "[ $symbol$output]($style)"
+shell = ["bash", "--noprofile", "--norc"]
+symbol = ""
+style = "fg:crust bg:sapphire"
+
+#[custom.tailscale_status]
+#description = "Tailscale Status"
+#command="tailscale-status.sh"
+#when="command -v tailscale-status.sh"
+#format = "[ $symbol$output]($style)"
+#shell = ["bash", "--noprofile", "--norc"]
+#symbol = "󱗼"
+#style = "fg:crust bg:sapphire"
+
+[custom.screen]
+description = "Display a monitor glyph and the pid.tty.host if we're in a screen session."
+when = """ test "$STY" """
+shell = ["bash", "--noprofile", "--norc"]
+#command = 'echo 🖵 " $STY"'
+command = 'echo " $STY"'
+style = "fg:crust bg:sapphire"
+
+[custom.systemctl]
+description = "Count failed systemd units"
+when = "systemctl --failed | grep failed"
+command = "systemctl --failed | grep 'loaded units listed' | cut -d' ' -f1"
+shell = ["bash", "--noprofile", "--norc"]
+symbol = ""
+style = "fg:crust bg:sapphire"
+
+[custom.loadavg]
+description = "show load averages"
+command = "cat /proc/loadavg | cut -d' ' -f 1,2,3"
+shell = "/bin/sh"
+symbol = ""
+when = """
+limit="1.0"
+load=$(cat /proc/loadavg | cut -d' ' -f 1)
+test "$(echo "$load>$limit" | bc)" -ne 0
+style = "fg:crust bg:sapphire"
+"""

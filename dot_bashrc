@@ -58,7 +58,6 @@ if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-eval -- "$(starship init bash --print-full-init)"
 
 if which joe &> /dev/null; then
   EDITOR=joe

@@ -264,7 +264,7 @@ style = "bg:sapphire"
 format = '[[ $symbol($context) ](fg:crust bg:sapphire)]($style)'
 
 [container]
-style = "bg:sapphire"
+style = "bg:red"
 format = '[[ $symbol($context) ](fg:crust bg:sapphire)]($style)'
 
 [conda]

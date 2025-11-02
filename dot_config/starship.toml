@@ -112,8 +112,9 @@ Windows = "󰖳"
 #disabled = false
 ssh_only = true
 #trim_at = ".sonic.net"
-style = "bold green"
-format = "@[$hostname ]($style)"
+style = "bg:red fg:crust"
+#style = "bold green"
+format = "[@$hostname ]($style)"
 #ssh_symbol = " "
 ssh_symbol = ""
 

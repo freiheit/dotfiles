@@ -33,3 +33,6 @@ Host debots vps198970.vps.ovh.ca
         ForwardAgent yes
 	HostName vps198970.vps.ovh.ca
 	User freiheit
+
+Host *
+	IdentityAgent ~/.1password/agent.sock

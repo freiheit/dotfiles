@@ -65,6 +65,12 @@ if which joe &> /dev/null; then
   export EDITOR VISUAL
 fi
 
+OP_AUTH_SOCK=$HOME/.1password/agent.sock
+if [[ -S $OP_AUTH_SOCK && -r $OP_AUTH_SOCK && -w $OP_AUTH_SOCK ]]; then
+   SSH_AUTH_SOCK=$OP_AUTH_SOCK
+   export SSH_AUTH_SOCK
+fi
+
 ### bling.sh source start
 test -f /usr/share/bazzite-cli/bling.sh && source /usr/share/bazzite-cli/bling.sh
 ### bling.sh source end

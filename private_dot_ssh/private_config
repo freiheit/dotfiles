@@ -34,5 +34,5 @@ Host debots vps198970.vps.ovh.ca
 	HostName vps198970.vps.ovh.ca
 	User freiheit
 
-Host *
-	IdentityAgent ~/.1password/agent.sock
+#Host *
+#	IdentityAgent ~/.1password/agent.sock

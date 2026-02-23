@@ -12,7 +12,7 @@ if status is-interactive
             keychain --eval --ignore-missing --quiet --quick --ssh-allow-forwarded id_ecdsa id_rsa id_ed25519 | source
         else
             ssh-agent | source
-        fi
+        end
     end
 else
     # NON-INTERACTIVE
@@ -22,7 +22,7 @@ else
             keychain --eval --no-ask --ignore-missing --quiet --quick --ssh-allow-forwarded id_ecdsa id_rsa id_ed25519 | source
         else
             ssh-agent | source
-        fi
+        end
     end
     # Commands to run in interactive sessions can go here
 end

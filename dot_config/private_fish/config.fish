@@ -1,11 +1,32 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 set --local OP_AUTH_SOCK "$HOME/.1password/agent.sock"
 if test -S $OP_AUTH_SOCK -a -r $OP_AUTH_SOCK -a -w $OP_AUTH_SOCK
     set --global --export SSH_AUTH_SOCK "$OP_AUTH_SOCK"
 end
+
+if status is-interactive
+    # INTERACTIVE
+
+    # If no SSH-AGENT, try keychain and then ssh-agent
+    if test -z "$SSH_AUTH_SOCK" # no SSH-AGENT
+        if type --query keychain
+            keychain --eval --ignore-missing --quiet --quick --ssh-allow-forwarded id_ecdsa id_rsa id_ed25519 | source
+        else
+            ssh-agent | source
+        fi
+    end
+else
+    # NON-INTERACTIVE
+    # If no SSH-AGENT, try keychain and then ssh-agent
+    if test -z "$SSH_AUTH_SOCK" # no SSH-AGENT
+        if type --query keychain
+            keychain --eval --no-ask --ignore-missing --quiet --quick --ssh-allow-forwarded id_ecdsa id_rsa id_ed25519 | source
+        else
+            ssh-agent | source
+        fi
+    end
+    # Commands to run in interactive sessions can go here
+end
+
 
 # https://github.com/catppuccin/fish
 fish_config theme choose "Catppuccin Mocha"

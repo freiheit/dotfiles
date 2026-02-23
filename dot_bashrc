@@ -69,6 +69,12 @@ OP_AUTH_SOCK=$HOME/.1password/agent.sock
 if [[ -S $OP_AUTH_SOCK && -r $OP_AUTH_SOCK && -w $OP_AUTH_SOCK ]]; then
    SSH_AUTH_SOCK=$OP_AUTH_SOCK
    export SSH_AUTH_SOCK
+elif [[ -z "$SSH_AUTH_SOCK" ]]; then
+  if which keychain &> /dev/null
+    eval `keychain  --ignore-missing --quick --quiet --eval id_ecdsa id_rsa id_ed25519`
+  else
+    eval `ssh-agent -s`
+  fi
 fi
 
 ### bling.sh source start

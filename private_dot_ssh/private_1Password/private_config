@@ -1,0 +1,25 @@
+# This config file and the *.pub files in this folder are automatically
+# generated and managed by 1Password. Any manual edits to this file or
+# any *.pub file will be lost.
+#
+# You can include this file in your main SSH config by adding the
+# following line to your ~/.ssh/config file:
+#
+#   Include ~/.ssh/1Password/config
+
+# 1Password Item: ssh-key monolith ed25519
+Match Host freiheit-bots.ogazenh.art User bots
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/1Password/SHA256_iqaDUIFW8FkV+TyB6fxdQlr4e2ev+qthS2NV8z3lLrY.pub
+
+# 1Password Item: ssh-key monolith ed25519
+Match Host freiheit-bots.ogazenh.art User root
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/1Password/SHA256_iqaDUIFW8FkV+TyB6fxdQlr4e2ev+qthS2NV8z3lLrY.pub
+
+# 1Password Item: ssh-key monolith ed25519
+Match Host media1.ogazenh.art User root
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/1Password/SHA256_iqaDUIFW8FkV+TyB6fxdQlr4e2ev+qthS2NV8z3lLrY.pub
+
+Match all

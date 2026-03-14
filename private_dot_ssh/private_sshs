@@ -1,0 +1,46 @@
+Host chambord
+  Hostname chambord.fezziwig.xyz
+  User root
+
+Host feedbot/bots
+   ForwardAgent yes
+   Hostname feedbot.fezziwig.xyz
+   User bots
+
+Host feedbot/root
+   ForwardAgent yes
+   Hostname feedbot.fezziwig.xyz
+   User root
+
+
+Host debots
+	Port 2222
+        ForwardAgent yes
+	HostName vps198970.vps.ovh.ca
+	User freiheit
+
+
+Host N01.netmileduorg.com
+   ForwardAgent yes
+	Hostname N01.netmileduorg.com
+	User root
+Host N02.netmileduorg.com
+   ForwardAgent yes
+	Hostname N02.netmileduorg.com
+	User root
+Host C01.netmileduorg.com
+   ForwardAgent yes
+	Hostname C01.netmileduorg.com
+	User root
+Host H01.netmileduorg.com
+   ForwardAgent yes
+	Hostname H01.netmileduorg.com
+	User root
+Host L01.netmileduorg.com
+   ForwardAgent yes
+	Hostname L01.netmileduorg.com
+	User root
+Host L03.netmileduorg.com
+   ForwardAgent yes
+	Hostname L03.netmileduorg.com
+	User root

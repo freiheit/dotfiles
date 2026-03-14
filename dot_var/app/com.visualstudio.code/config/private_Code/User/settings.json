@@ -1,0 +1,5 @@
+{
+    "redhat.telemetry.enabled": true,
+    "editor.fontFamily": "'Fira Code Retina', 'Fira Code', 'Fira Code', 'FiraCode', 'fira-code', 'Droid Sans Mono', monospace",
+    "editor.fontLigatures": true
+}

@@ -25,3 +25,5 @@
 [pull]
 	rebase = false
 	ff = only
+[core]
+	excludesFile = ~/.gitignore

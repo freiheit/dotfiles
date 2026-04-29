@@ -14,6 +14,9 @@ if status is-interactive
             ssh-agent | source
         end
     end
+
+    atuin init fish | source
+
 else
     # NON-INTERACTIVE
     # If no SSH-AGENT, try keychain and then ssh-agent

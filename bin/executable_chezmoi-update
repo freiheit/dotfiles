@@ -8,7 +8,7 @@ ACCTS=(
 )
 
 echo === Commit all changes
-chezmoi managed | xargs chezmoi add --recursive=false --keep-going --verbose
+chezmoi re-add
 
 echo === Update from git
 chezmoi update

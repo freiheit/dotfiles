@@ -1,5 +1,12 @@
 #!/bin/bash
 
+ACCTS=(
+  root@media1.ogazenh.art
+  eric@media1.ogazenh.art
+  root@freiheit-bots.freiheit.wtf
+  bots@freiheit-bots.freiheit.wtf
+)
+
 echo === Commit all changes
 chezmoi managed | xargs chezmoi add --recursive=false --keep-going --verbose
 
@@ -14,10 +21,11 @@ chezmoi git push
 echo === Pulling updates down to elsewhere ===
 echo === sudo ===
 sudo -E chezmoi update
-echo === distrobox-list/enter ===
-distrobox-list  | 
-  cut -d'|' -f2 |
-  tr -d ' '     | 
-  tail -n +2    | 
-  xargs -I{}    \
-    distrobox-enter --name {} -- chezmoi update
+
+echo === Looping through ACCTS to pull updates ===
+for acct in $ACCTS; do
+  echo == Processing $acct ==
+  ssh -A $acct chezmoi update --apply
+done
+
+echo === ALL DONE ===

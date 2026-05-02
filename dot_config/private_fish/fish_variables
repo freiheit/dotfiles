@@ -3,6 +3,5 @@
 SETUVAR --path CDPATH:\x2e\x1e/home/eric\x1e/home/eric/Code\x1e\x2e\x1e/home/eric/Documents
 SETUVAR EDITOR:joe
 SETUVAR VISUAL:joe
-SETUVAR __fish_initialized:3800
-SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR __fish_initialized:4300
 SETUVAR fish_user_paths:/home/eric/\x2ecargo/bin\x1e/home/eric/bin\x1e/home/eric/\x2elocal/bin

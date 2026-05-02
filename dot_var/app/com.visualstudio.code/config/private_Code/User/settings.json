@@ -1,5 +1,30 @@
 {
     "redhat.telemetry.enabled": true,
     "editor.fontFamily": "'Fira Code Retina', 'Fira Code', 'Fira Code', 'FiraCode', 'fira-code', 'Droid Sans Mono', monospace",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+    "cSpell.userWords": [
+        "bazzite",
+        "bootc",
+        "chezmoi",
+        "chrony",
+        "copr",
+        "etckeeper",
+        "freizzite",
+        "jupp",
+        "plocate"
+    ],
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "gitlens.plusFeatures.enabled": false,
+    "git.confirmSync": false
 }

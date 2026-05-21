@@ -15,7 +15,8 @@ if status is-interactive
         end
     end
 
-    atuin init fish | source
+    
+   command -q atuin && atuin init fish | source
 
 else
     # NON-INTERACTIVE

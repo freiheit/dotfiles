@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ACCTS=(
-  root@media1.ogazenh.art
-  eric@media1.ogazenh.art
-  root@freiheit-bots.freiheit.wtf
-  bots@freiheit-bots.freiheit.wtf
+    root@media1.ogazenh.art
+    eric@media1.ogazenh.art
+    root@freiheit-bots.freiheit.wtf
+    bots@freiheit-bots.freiheit.wtf
 )
 
 echo === Commit all changes
@@ -24,8 +24,8 @@ sudo -E chezmoi update
 
 echo === Looping through ACCTS to pull updates ===
 for acct in $ACCTS; do
-  echo == Processing $acct ==
-  ssh -A $acct chezmoi update --apply
+    echo == Processing $acct ==
+    ssh -A $acct chezmoi update --apply
 done
 
 echo === ALL DONE ===

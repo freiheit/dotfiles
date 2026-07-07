@@ -13,7 +13,6 @@ $git_state\
 $git_metrics\
 [](fg:yellow bg:green)\
 $c\
-$cpp\
 $cmake\
 $rust\
 $golang\
@@ -217,10 +216,6 @@ format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
 
 [c]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
-
-[cpp]
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
 

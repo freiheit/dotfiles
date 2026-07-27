@@ -1,0 +1,78 @@
+# Liquid Prompt configuration -- gruvbox dark, powerline_full theme
+# docs: https://liquidprompt.readthedocs.io/en/stable/config.html
+# theme colors: https://liquid-prompt-powerline.readthedocs.io/en/latest/theme/powerline.html#colors
+
+## Features ##
+
+# window/tab + screen/tmux titles (replaces the old starship set_win_title hook)
+LP_ENABLE_TITLE=1
+LP_ENABLE_SCREEN_TITLE=1
+
+# explain non-zero exit codes
+LP_ENABLE_ERROR_MEANING=1
+LP_ENABLE_ERROR_MEANING_EXTENDED=1
+
+LP_ENABLE_TIME=1
+LP_ENABLE_SUDO=1
+
+# OS logo segment; glyphs come from the nerd-font preset sourced below
+LP_ENABLE_OS=1
+LP_ENABLE_OS_DISTRIB=1
+
+# container segment (distrobox/toolbox/docker)
+LP_ENABLE_CONTAINER=1
+
+# memory segment: threshold at 100% so RAM is always shown
+LP_ENABLE_RAM=1
+LP_RAM_THRESHOLD_PERC=100
+
+# nerd-font glyphs for LP_MARK_OS and friends
+[ -f ~/.local/share/liquidprompt/contrib/presets/nerd-font.conf ] \
+    && source ~/.local/share/liquidprompt/contrib/presets/nerd-font.conf
+
+## Powerline theme colors -- gruvbox dark ##
+# tuple: (fg256 bg256 bold underline fg16 bg16)
+# gruvbox 256-color indices:
+#   bg0=235 bg0_h=234 bg1=237 bg2=239 bg3=241 gray=245
+#   fg0=229 fg1=223 fg2=250 fg3=248 fg4=246
+#   bright:  red=167 green=142 yellow=214 blue=109 purple=175 aqua=108 orange=208
+#   neutral: red=124 green=106 yellow=172 blue=66  purple=132 aqua=72  orange=166
+
+POWERLINE_NEUTRAL_COLOR=(223 235 0 0 7 0)
+POWERLINE_TIME_COLOR=(246 237 0 0 7 0)
+POWERLINE_BATTERY_COLOR=(-1 237 0 0 -1 0)
+POWERLINE_LOAD_COLOR=(235 172 0 0 0 3)
+POWERLINE_TEMPERATURE_COLOR=(235 166 0 0 0 3)
+POWERLINE_WIFI_STRENGTH_COLOR=(235 172 0 0 0 3)
+POWERLINE_JOBS_COLOR=(235 214 0 0 0 3)
+POWERLINE_USER_COLOR=(223 124 1 0 7 1)
+POWERLINE_HOST_COLOR=(223 124 0 0 7 1)
+POWERLINE_PATH_COLOR=(246 237 0 0 7 0)
+POWERLINE_PATH_LAST_COLOR=(223 237 1 0 7 0)
+POWERLINE_PATH_SEPARATOR_COLOR=(243 237 0 0 7 0)
+POWERLINE_PATH_SHORTENED_COLOR=(243 237 0 0 7 0)
+POWERLINE_PATH_VCS_COLOR=(214 237 1 0 3 0)
+POWERLINE_DIRSTACK_COLOR=(223 235 0 0 7 0)
+POWERLINE_SHLVL_COLOR=(235 132 0 0 0 5)
+POWERLINE_CHROOT_COLOR=(235 108 0 0 0 6)
+POWERLINE_PYTHON_ENV_COLOR=(235 72 0 0 0 6)
+POWERLINE_NODE_ENV_COLOR=(235 72 0 0 0 6)
+POWERLINE_RUBY_ENV_COLOR=(235 72 0 0 0 6)
+POWERLINE_KUBECONTEXT_COLOR=(235 66 0 0 0 4)
+POWERLINE_TERRAFORM_ENV_COLOR=(235 132 0 0 0 5)
+POWERLINE_AWS_PROFILE_COLOR=(214 236 0 0 3 0)
+POWERLINE_PROXY_COLOR=(235 208 1 0 0 3)
+POWERLINE_SOFTWARE_COLLECTIONS_COLOR=(235 132 0 0 0 5)
+POWERLINE_VCS_CLEAN_COLOR=(142 236 0 0 2 0)
+POWERLINE_VCS_DIRTY_COLOR=(214 236 0 0 3 0)
+POWERLINE_VCS_STASH_COLOR=(208 236 0 0 3 0)
+POWERLINE_RUNTIME_COLOR=(214 237 0 0 3 0)
+POWERLINE_ERROR_COLOR=(229 124 0 0 7 1)
+
+# colors for the extra segments in the freiheit/liquidprompt-powerline fork
+POWERLINE_OS_COLOR=(223 124 0 0 7 1)
+POWERLINE_CONTAINER_COLOR=(235 108 0 0 0 6)
+POWERLINE_RAM_COLOR=(223 124 0 0 7 1)
+POWERLINE_SYSTEMD_COLOR=(229 166 0 0 7 3)
+POWERLINE_SSHKEYS_COLOR=(235 108 0 0 0 6)
+POWERLINE_TAILSCALE_COLOR=(235 108 0 0 0 6)

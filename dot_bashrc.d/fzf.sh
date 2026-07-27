@@ -1,7 +1,7 @@
 if which fzf &> /dev/null; then
   eval "$(fzf --bash)"
-  export FZF_DEFAULT_OPTS=$'--color=fg:#cdd6f4,bg:#1e1e2e,hl:#f38ba8,fg+:#cdd6f4,bg+:#313244
-    --color=hl+:#f38ba8,info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc
-    --color=marker:#f8ebe8,spinner:#f5e0dc,header:#f38ba8,border:#585b70
-    --color=gutter:#313244'
+  export FZF_DEFAULT_OPTS=$'--color=fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836
+    --color=hl+:#fabd2f,info:#83a598,prompt:#fe8019,pointer:#fb4934
+    --color=marker:#b8bb26,spinner:#fb4934,header:#928374,border:#665c54
+    --color=gutter:#282828'
 fi

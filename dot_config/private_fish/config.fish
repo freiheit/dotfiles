@@ -32,7 +32,7 @@ else
 end
 
 
-# https://github.com/catppuccin/fish
-fish_config theme choose "Catppuccin Mocha"
+# ~/.config/fish/themes/Gruvbox Dark.theme (chezmoi-managed)
+fish_config theme choose "Gruvbox Dark"
 
 starship init fish | source

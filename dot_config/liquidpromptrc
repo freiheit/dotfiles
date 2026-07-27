@@ -15,9 +15,14 @@ LP_ENABLE_ERROR_MEANING_EXTENDED=1
 LP_ENABLE_TIME=1
 LP_ENABLE_SUDO=1
 
-# OS logo segment; glyphs come from the nerd-font preset sourced below
+# OS logo segment; glyphs come from the nerd-font preset sourced below.
+# Only the distro logo -- not arch/family/kernel/version text.
 LP_ENABLE_OS=1
 LP_ENABLE_OS_DISTRIB=1
+LP_ENABLE_OS_ARCH=0
+LP_ENABLE_OS_FAMILY=0
+LP_ENABLE_OS_KERNEL=0
+LP_ENABLE_OS_VERSION=0
 
 # container segment (distrobox/toolbox/docker)
 LP_ENABLE_CONTAINER=1
@@ -29,6 +34,19 @@ LP_RAM_THRESHOLD_PERC=100
 # nerd-font glyphs for LP_MARK_OS and friends
 [ -f ~/.local/share/liquidprompt/contrib/presets/nerd-font.conf ] \
     && source ~/.local/share/liquidprompt/contrib/presets/nerd-font.conf
+
+# bazzite isn't in the preset's LP_MARK_OS list; it's fedora-based
+LP_MARK_OS+=("bazzite" "")
+
+LP_MARK_RAM="󰍛 "
+
+## Extra segments from the freiheit/liquidprompt-powerline fork ##
+POWERLINE_ENABLE_TAILSCALE=1
+POWERLINE_CONTAINER_MARKER="⬢ "
+POWERLINE_SYSTEMD_MARKER=" "
+POWERLINE_SSHKEYS_MARKER=" "
+POWERLINE_SSHKEYS_MISSING_MARKER="✗"
+POWERLINE_TAILSCALE_MARKER="󱗼 "
 
 ## Powerline theme colors -- gruvbox dark ##
 # tuple: (fg256 bg256 bold underline fg16 bg16)

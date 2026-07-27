@@ -3,15 +3,15 @@ palette = "gruvbox_dark"
 
 format = """
 $status\
-[](orange)\
+[](orange)\
 $directory\
 $direenv\
-[](fg:orange bg:yellow)\
+[](fg:orange bg:yellow)\
 $git_branch\
 $git_status\
 $git_state\
 $git_metrics\
-[](fg:yellow bg:green)\
+[](fg:yellow bg:green)\
 $c\
 $cmake\
 $rust\
@@ -22,12 +22,12 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:green bg:aqua)\
+[](fg:green bg:aqua)\
 $custom\
-[ ](fg:aqua)\
+[ ](fg:aqua)\
 $cmd_duration\
 $line_break\
-[](red_dim)\
+[](red_dim)\
 $os\
 $username\
 $hostname\
@@ -36,7 +36,7 @@ $battery\
 $container\
 $jobs\
 $time\
-[ ](red_dim)\
+[ ](red_dim)\
 $shlvl\
 $character"""
 
@@ -76,31 +76,31 @@ format = '[$symbol$version]($style)'
 style = "bg:red_dim fg:bg0_h"
 
 [os.symbols]
-AlmaLinux = ""
-Alpine = ""
-Amazon = ""
-Android = ""
+AlmaLinux = ""
+Alpine = ""
+Amazon = ""
+Android = ""
 Arch = "󰣇"
 Artix = "󰣇"
-CentOS = ""
-Debian = ""
-Fedora = ""
-FreeBSD = ""
+CentOS = ""
+Debian = ""
+Fedora = ""
+FreeBSD = ""
 Gentoo = "󰣨"
-Linux = ""
-Macos = ""
-Manjaro = ""
+Linux = ""
+Macos = ""
+Manjaro = ""
 Mint = "󰣭"
-NixOS = ""
-openSUSE = ""
-Pop = ""
+NixOS = ""
+openSUSE = ""
+Pop = ""
 Raspbian = "󰐿"
 Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
-RockyLinux = ""
-SUSE = ""
-Ubuntu = ""
-Unknown = ""
+RockyLinux = ""
+SUSE = ""
+Ubuntu = ""
+Unknown = ""
 Windows = "󰖳"
 
 #[shell]
@@ -113,8 +113,8 @@ ssh_only = true
 style = "bg:red_dim fg:bg0_h"
 #style = "bold green"
 format = "[@$hostname ]($style)"
-#ssh_symbol = " "
-ssh_symbol = ""
+#ssh_symbol = " "
+ssh_symbol = ""
 
 [username]
 #show_always = true
@@ -123,6 +123,15 @@ style_user = "bg:red_dim fg:bg0_h"
 style_root = "bg:red_dim fg:bg0_h"
 format = '[ $user]($style)'
 
+#[directory]
+#truncation_length = 4
+#truncate_to_repo = false
+#format = "[ $path ]($style)"
+#truncation_symbol = "…/"
+#repo_root_style = "bg:orange fg:bg0_h"
+#read_only = ""
+#style = "bg:orange fg:bg0_h"
+
 [directory]
 style = "bg:orange fg:bg0_h"
 format = "[ $path ]($style)"
@@ -130,20 +139,20 @@ truncation_length = 3
 truncation_symbol = "…/"
 
 [directory.substitutions]
-"~" = " "
+"~" = " "
 "Code" = "󰲋 "
 "~/Code" = "󰲋 "
 "Developer" = "󰲋 "
 "~/Developer" = "󰲋 "
 "Documents" = "󰈙 "
 "~/Documents" = "󰈙 "
-"Downloads" = " "
-"~/Downloads" = " "
-"GoogleDrive" = " "
+"Downloads" = " "
+"~/Downloads" = " "
+"GoogleDrive" = " "
 "Music" = "󰝚 "
 "~/Music" = "󰝚 "
-"Pictures" = " "
-"~/Pictures" = " "
+"Pictures" = " "
+"~/Pictures" = " "
 "repos" = "󰲋 "
 "Repos" = "󰲋 "
 "~/repos" = "󰲋 "
@@ -155,7 +164,7 @@ truncation_symbol = "…/"
 use_12hr = true
 time_range = '16:00:00-09:30:00'
 style = "bg:red_dim"
-format = '[[ $time ](fg:bg0_h bg:red_dim)]($style)'
+format = '[[ $time ](fg:bg0_h bg:red_dim)]($style)'
 time_format="%-I:%M%P"
 
 [[battery.display]]
@@ -163,13 +172,13 @@ threshold = 75
 style = "bg:aqua fg:bg0_h"
 
 [memory_usage]
-#symbol = " "
+#symbol = " "
 disabled = false
 style = "bg:red_dim fg:bg0_h"
 format = "[ $symbol${ram}(|${swap}) ]($style)"
-#symbol = ""
+#symbol = ""
 #symbol = "󰍛"
-symbol = ""
+symbol = ""
 
 [shlvl]
 disabled = false
@@ -180,11 +189,11 @@ symbol = "↕"
 [status]
 disabled = false
 style = "bg:red fg:bg0_h"
-format = "[](fg:red)[ $symbol$status ]($style)[ ](fg:red)"
+format = "[](fg:red)[ $symbol$status ]($style)[ ](fg:red)"
 
 [git_branch]
 format = '[[ $symbol$branch ](fg:bg0_h bg:yellow)]($style)'
-symbol = ""
+symbol = ""
 truncation_length = 16
 style = "bg:yellow"
 
@@ -200,61 +209,61 @@ deleted_style = "bg:yellow fg:red_faded"
 format = '([+$added ]($added_style))([-$deleted ]($deleted_style))'
 
 [nodejs]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [c]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [rust]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [golang]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [php]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [java]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [kotlin]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [haskell]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [python]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol($version)(\(#$virtualenv\)) ](fg:bg0_h bg:green)]($style)'
 
 [docker_context]
-symbol = ""
+symbol = ""
 style = "bg:aqua"
 format = '[[ $symbol($context) ](fg:bg0_h bg:aqua)]($style)'
 
 [container]
 style = "fg:red_dim bg:aqua"
-format = '[[$symbol($context) ](fg:bg0_h bg:aqua)]($style)[](fg:aqua bg:red_dim)'
+format = '[[$symbol($context) ](fg:bg0_h bg:aqua)]($style)[](fg:aqua bg:red_dim)'
 
 [conda]
-symbol = ""
+symbol = ""
 style = "fg:bg0_h bg:aqua"
 format = '[$symbol$environment ]($style)'
 ignore_base = false
@@ -262,10 +271,10 @@ ignore_base = false
 [custom.ssh_no_keys]
 description = "SSH missing keys"
 when = "ssh-add -l | grep -q 'no identities'"
-command = "echo "
+command = "echo "
 format = "[ $symbol$output]($style)"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
+symbol = ""
 style = "fg:bg0_h bg:aqua"
 
 [custom.ssh_keys]
@@ -274,16 +283,16 @@ when = "ssh-add -l | grep -v -q 'no identities'"
 command = "ssh-add -l | grep -v 'no identities' | wc -l"
 format = "[ $symbol$output]($style)"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
+symbol = ""
 style = "fg:bg0_h bg:aqua"
 
 [custom.tailscale_status]
 description = "Tailscale Status"
-command="tailscale-status.sh"
-when="command -v tailscale-status.sh"
+command = "tailscale-status.sh"
+when = "command -v tailscale-status.sh"
 format = "[ $symbol$output]($style)"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = "󱗼"
+symbol = "󱗼 "
 style = "fg:bg0_h bg:aqua"
 
 [custom.screen]
@@ -291,7 +300,7 @@ description = "Display a monitor glyph and the pid.tty.host if we're in a screen
 when = """ test "$STY" """
 shell = ["bash", "--noprofile", "--norc"]
 #command = 'echo 🖵 " $STY"'
-command = 'echo " $STY"'
+command = 'echo " $STY"'
 style = "fg:bg0_h bg:aqua"
 
 [custom.systemctl]
@@ -299,14 +308,14 @@ description = "Count failed systemd units"
 when = "systemctl --failed | grep failed"
 command = "systemctl --failed | grep 'loaded units listed' | cut -d' ' -f1"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
+symbol = ""
 style = "fg:bg0_h bg:aqua"
 
 [custom.loadavg]
 description = "show load averages"
 command = "cut -d' ' -f 1,2,3 /proc/loadavg"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
+symbol = " "
 style = "fg:bg0_h bg:aqua"
 when = """
 limit="1.0"

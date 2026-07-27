@@ -1,17 +1,17 @@
 # This line needs to be before any sections:
-palette = "catppuccin_mocha"
+palette = "gruvbox_dark"
 
 format = """
 $status\
-[](peach)\
+[](orange)\
 $directory\
 $direenv\
-[](fg:peach bg:yellow)\
+[](fg:orange bg:yellow)\
 $git_branch\
 $git_status\
 $git_state\
 $git_metrics\
-[](fg:yellow bg:green)\
+[](fg:yellow bg:green)\
 $c\
 $cmake\
 $rust\
@@ -22,12 +22,12 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:green bg:sapphire)\
+[](fg:green bg:aqua)\
 $custom\
-[ ](fg:sapphire)\
+[ ](fg:aqua)\
 $cmd_duration\
 $line_break\
-[](red)\
+[](red_dim)\
 $os\
 $username\
 $hostname\
@@ -36,72 +36,71 @@ $battery\
 $container\
 $jobs\
 $time\
-[ ](red)\
+[ ](red_dim)\
 $shlvl\
 $character"""
 
-# from https://github.com/catppuccin/starship
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-lattered = "#d20f39"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-lattegreen = "#40a02b"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
+# https://github.com/morhetz/gruvbox (dark)
+[palettes.gruvbox_dark]
+bg0_h = "#1d2021"
+bg0 = "#282828"
+bg1 = "#3c3836"
+bg2 = "#504945"
+bg3 = "#665c54"
+bg4 = "#7c6f64"
+gray = "#928374"
+fg0 = "#fbf1c7"
+fg1 = "#ebdbb2"
+fg2 = "#d5c4a1"
+fg3 = "#bdae93"
+fg4 = "#a89984"
+red = "#fb4934"
+red_dim = "#cc241d"
+red_faded = "#9d0006"
+green = "#b8bb26"
+green_dim = "#98971a"
+yellow = "#fabd2f"
+yellow_dim = "#d79921"
+blue = "#83a598"
+blue_dim = "#458588"
+purple = "#d3869b"
+purple_dim = "#b16286"
+aqua = "#8ec07c"
+aqua_dim = "#689d6a"
+orange = "#fe8019"
+orange_dim = "#d65d0e"
 
 [os]
 disabled = false
 format = '[$symbol$version]($style)'
-style = "bg:red fg:crust"
+style = "bg:red_dim fg:bg0_h"
 
 [os.symbols]
-AlmaLinux = ""
-Alpine = ""
-Amazon = ""
-Android = ""
+AlmaLinux = ""
+Alpine = ""
+Amazon = ""
+Android = ""
 Arch = "󰣇"
 Artix = "󰣇"
-CentOS = ""
-Debian = ""
-Fedora = ""
-FreeBSD = ""
+CentOS = ""
+Debian = ""
+Fedora = ""
+FreeBSD = ""
 Gentoo = "󰣨"
-Linux = ""
-Macos = ""
-Manjaro = ""
+Linux = ""
+Macos = ""
+Manjaro = ""
 Mint = "󰣭"
-NixOS = ""
-openSUSE = ""
-Pop = ""
+NixOS = ""
+openSUSE = ""
+Pop = ""
 Raspbian = "󰐿"
 Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
-RockyLinux = ""
-SUSE = ""
-Ubuntu = ""
-Unknown = ""
+RockyLinux = ""
+SUSE = ""
+Ubuntu = ""
+Unknown = ""
 Windows = "󰖳"
 
 #[shell]
@@ -111,49 +110,40 @@ Windows = "󰖳"
 #disabled = false
 ssh_only = true
 #trim_at = ".sonic.net"
-style = "bg:red fg:crust"
+style = "bg:red_dim fg:bg0_h"
 #style = "bold green"
 format = "[@$hostname ]($style)"
-#ssh_symbol = " "
-ssh_symbol = ""
+#ssh_symbol = " "
+ssh_symbol = ""
 
 [username]
 #show_always = true
 disabled = false
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
+style_user = "bg:red_dim fg:bg0_h"
+style_root = "bg:red_dim fg:bg0_h"
 format = '[ $user]($style)'
 
-#[directory]
-#truncation_length = 4
-#truncate_to_repo = false
-#format = "[ $path ]($style)"
-#truncation_symbol = "…/"
-#repo_root_style = "bg:peach fg:crust"
-#read_only = ""
-#style = "bg:peach fg:crust"
-
 [directory]
-style = "bg:peach fg:crust"
+style = "bg:orange fg:bg0_h"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
 [directory.substitutions]
-"~" = " "
+"~" = " "
 "Code" = "󰲋 "
 "~/Code" = "󰲋 "
 "Developer" = "󰲋 "
 "~/Developer" = "󰲋 "
 "Documents" = "󰈙 "
 "~/Documents" = "󰈙 "
-"Downloads" = " "
-"~/Downloads" = " "
-"GoogleDrive" = " "
+"Downloads" = " "
+"~/Downloads" = " "
+"GoogleDrive" = " "
 "Music" = "󰝚 "
 "~/Music" = "󰝚 "
-"Pictures" = " "
-"~/Pictures" = " "
+"Pictures" = " "
+"~/Pictures" = " "
 "repos" = "󰲋 "
 "Repos" = "󰲋 "
 "~/repos" = "󰲋 "
@@ -164,119 +154,119 @@ truncation_symbol = "…/"
 #disabled = false
 use_12hr = true
 time_range = '16:00:00-09:30:00'
-style = "bg:red"
-format = '[[ $time ](fg:crust bg:red)]($style)'
+style = "bg:red_dim"
+format = '[[ $time ](fg:bg0_h bg:red_dim)]($style)'
 time_format="%-I:%M%P"
 
 [[battery.display]]
 threshold = 75
-style = "bg:sapphire fg:crust"
+style = "bg:aqua fg:bg0_h"
 
 [memory_usage]
-#symbol = " "
+#symbol = " "
 disabled = false
-style = "bg:red fg:crust"
+style = "bg:red_dim fg:bg0_h"
 format = "[ $symbol${ram}(|${swap}) ]($style)"
-#symbol = ""
+#symbol = ""
 #symbol = "󰍛"
-symbol = ""
+symbol = ""
 
 [shlvl]
 disabled = false
-#style = "bg:red fg:crust"
+#style = "bg:red_dim fg:bg0_h"
 format = "[$symbol$shlvl]($style)"
 symbol = "↕"
 
 [status]
 disabled = false
-style = "bg:lattered fg:subtext1"
-format = "[](bg:subtest1 fg:lattered)[ $symbol$status ]($style)[\n](bg:subtest1 fg:lattered)"
+style = "bg:red fg:bg0_h"
+format = "[](fg:red)[ $symbol$status ]($style)[ ](fg:red)"
 
 [git_branch]
-format = '[[ $symbol$branch ](fg:crust bg:yellow)]($style)'
-symbol = ""
+format = '[[ $symbol$branch ](fg:bg0_h bg:yellow)]($style)'
+symbol = ""
 truncation_length = 16
 style = "bg:yellow"
 
 
 [git_status]
 style = "bg:yellow"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+format = '[[($all_status$ahead_behind )](fg:bg0_h bg:yellow)]($style)'
 
 [git_metrics]
 #disabled = false
-added_style = "bg:yellow fg:lattegreen"
-deleted_style = "bg:yellow fg:lattered"
+added_style = "bg:yellow fg:green_dim"
+deleted_style = "bg:yellow fg:red_faded"
 format = '([+$added ]($added_style))([-$deleted ]($deleted_style))'
 
 [nodejs]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [c]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [rust]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [golang]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [php]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [java]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [kotlin]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [haskell]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version) ](fg:bg0_h bg:green)]($style)'
 
 [python]
-symbol = ""
+symbol = ""
 style = "bg:green"
-format = '[[ $symbol($version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+format = '[[ $symbol($version)(\(#$virtualenv\)) ](fg:bg0_h bg:green)]($style)'
 
 [docker_context]
-symbol = ""
-style = "bg:sapphire"
-format = '[[ $symbol($context) ](fg:crust bg:sapphire)]($style)'
+symbol = ""
+style = "bg:aqua"
+format = '[[ $symbol($context) ](fg:bg0_h bg:aqua)]($style)'
 
 [container]
-style = "fg:red bg:sapphire"
-format = '[[$symbol($context) ](fg:crust bg:sapphire)]($style)[](fg:sapphire bg:red)'
+style = "fg:red_dim bg:aqua"
+format = '[[$symbol($context) ](fg:bg0_h bg:aqua)]($style)[](fg:aqua bg:red_dim)'
 
 [conda]
-symbol = ""
-style = "fg:crust bg:sapphire"
+symbol = ""
+style = "fg:bg0_h bg:aqua"
 format = '[$symbol$environment ]($style)'
 ignore_base = false
 
 [custom.ssh_no_keys]
 description = "SSH missing keys"
 when = "ssh-add -l | grep -q 'no identities'"
-command = "echo "
+command = "echo "
 format = "[ $symbol$output]($style)"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
-style = "fg:crust bg:sapphire"
+symbol = ""
+style = "fg:bg0_h bg:aqua"
 
 [custom.ssh_keys]
 description = "SSH key count"
@@ -284,42 +274,42 @@ when = "ssh-add -l | grep -v -q 'no identities'"
 command = "ssh-add -l | grep -v 'no identities' | wc -l"
 format = "[ $symbol$output]($style)"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
-style = "fg:crust bg:sapphire"
+symbol = ""
+style = "fg:bg0_h bg:aqua"
 
-#[custom.tailscale_status]
-#description = "Tailscale Status"
-#command="tailscale-status.sh"
-#when="command -v tailscale-status.sh"
-#format = "[ $symbol$output]($style)"
-#shell = ["bash", "--noprofile", "--norc"]
-#symbol = "󱗼"
-#style = "fg:crust bg:sapphire"
+[custom.tailscale_status]
+description = "Tailscale Status"
+command="tailscale-status.sh"
+when="command -v tailscale-status.sh"
+format = "[ $symbol$output]($style)"
+shell = ["bash", "--noprofile", "--norc"]
+symbol = "󱗼"
+style = "fg:bg0_h bg:aqua"
 
 [custom.screen]
 description = "Display a monitor glyph and the pid.tty.host if we're in a screen session."
 when = """ test "$STY" """
 shell = ["bash", "--noprofile", "--norc"]
 #command = 'echo 🖵 " $STY"'
-command = 'echo " $STY"'
-style = "fg:crust bg:sapphire"
+command = 'echo " $STY"'
+style = "fg:bg0_h bg:aqua"
 
 [custom.systemctl]
 description = "Count failed systemd units"
 when = "systemctl --failed | grep failed"
 command = "systemctl --failed | grep 'loaded units listed' | cut -d' ' -f1"
 shell = ["bash", "--noprofile", "--norc"]
-symbol = ""
-style = "fg:crust bg:sapphire"
+symbol = ""
+style = "fg:bg0_h bg:aqua"
 
 [custom.loadavg]
 description = "show load averages"
-command = "cat /proc/loadavg | cut -d' ' -f 1,2,3"
-shell = "/bin/sh"
-symbol = ""
+command = "cut -d' ' -f 1,2,3 /proc/loadavg"
+shell = ["bash", "--noprofile", "--norc"]
+symbol = ""
+style = "fg:bg0_h bg:aqua"
 when = """
 limit="1.0"
-load=$(cat /proc/loadavg | cut -d' ' -f 1)
+load=$(cut -d' ' -f 1 /proc/loadavg)
 test "$(echo "$load>$limit" | bc)" -ne 0
-style = "fg:crust bg:sapphire"
 """

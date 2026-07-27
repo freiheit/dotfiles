@@ -1,0 +1,15 @@
+[".local/share/liquidprompt"]
+    type = "git-repo"
+    url = "https://github.com/liquidprompt/liquidprompt.git"
+    refreshPeriod = "24h"
+    [".local/share/liquidprompt".clone]
+        args = ["--branch", "stable"]
+    [".local/share/liquidprompt".pull]
+        args = ["--ff-only"]
+
+[".local/share/liquidprompt-powerline"]
+    type = "git-repo"
+    url = "https://github.com/freiheit/liquidprompt-powerline.git"
+    refreshPeriod = "24h"
+    [".local/share/liquidprompt-powerline".pull]
+        args = ["--ff-only"]

@@ -18,7 +18,10 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: private_dot_ssh/private_id_ed25519.pub
     ignore_detectors: [filecontent]
+  # git commit hashes
   - filename: .github/workflows/pre-commit.yml
     ignore_detectors: [filecontent]
-version: "1.0"
+  # github action badges
+  - filename: README.md
+    ignore_detectors: [filecontent]
 version: "1.0"

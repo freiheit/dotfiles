@@ -5,6 +5,7 @@ ACCTS=(
     eric@media1.ogazenh.art
     root@freiheit-bots-el10.freiheit.wtf
     bots@freiheit-bots-el10.freiheit.wtf
+    eric@atlantic.devin.com
 )
 
 # Recover clones stranded on orphaned history after a force-push. Resets only on

@@ -80,3 +80,5 @@ fi
 ### bling.sh source start
 test -f /usr/share/bazzite-cli/bling.sh && source /usr/share/bazzite-cli/bling.sh
 ### bling.sh source end
+
+eval "$(thefuck --alias)"

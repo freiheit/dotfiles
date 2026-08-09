@@ -30,4 +30,16 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: private_dot_ssh/private_id_ed25519.pub
     ignore_detectors: [filecontent]
+
+  # atuin ships its config as ~10KB of commented-out upstream template. Talisman
+  # flags a base64 alphabet in one comment and half a dozen commented lines that
+  # merely contain the word "key" (`# key_path = "~/.key"`,
+  # `# search_mode_shell_up_key_binding`). All comments, no secrets: atuin keeps
+  # its actual encryption key in ~/.local/share/atuin/key and its session token
+  # in ~/.local/share/atuin/session, neither of which is in this repo.
+  #
+  # Only talisman is silenced here. betterleaks still scans this file on every
+  # commit and passes it cleanly, so the file is not going unexamined.
+  - filename: dot_config/private_atuin/private_config.toml
+    ignore_detectors: [filecontent]
 version: "1.0"

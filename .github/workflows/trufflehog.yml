@@ -1,4 +1,6 @@
+name: trufflehog secrets scan
 on:
+
   push:
     branches:
       - main

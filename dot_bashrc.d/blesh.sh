@@ -1,6 +1,5 @@
-# ble.sh (Bash Line Editor). Sourced with the default --attach=prompt, so ble.sh
-# only takes over the line editor at the first prompt -- after the rest of
-# .bashrc (linuxbrew, bling.sh, atuin, zoxide) has finished setting up.
+# ble.sh. Default --attach=prompt hands over the line editor at the first prompt,
+# after all of .bashrc.
 if [[ $- == *i* ]] && [ -e ~/.local/share/blesh/ble.sh ]; then
     source ~/.local/share/blesh/ble.sh
 fi

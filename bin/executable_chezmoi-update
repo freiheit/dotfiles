@@ -7,18 +7,12 @@ ACCTS=(
     bots@freiheit-bots-el10.freiheit.wtf
 )
 
-# Pull-only clones land on orphaned history after a force-push, and then
-# chezmoi update's git pull fails instead of updating. Behind or equal is the
-# normal case and resets nothing. Ahead is left alone too -- autoCommit means a
-# clone can hold real unpushed work, and throwing that away silently would be
-# worse than the failure this is fixing. Only a genuinely diverged clone, where
-# neither side contains the other, gets discarded and re-pointed at origin.
-RESYNC='cd "$(chezmoi source-path)" &&
-    git fetch --quiet origin &&
+# Recover clones stranded on orphaned history after a force-push. Resets only on
+# true divergence -- a clone merely ahead may hold unpushed autoCommit work.
+RESYNC='cd "$(chezmoi source-path)" && git fetch --quiet origin &&
     { git merge-base --is-ancestor HEAD origin/main ||
       git merge-base --is-ancestor origin/main HEAD ||
-      { echo "== history diverged, resetting to origin/main =="
-        git reset --hard origin/main; }; }'
+      { echo "== diverged, resetting to origin/main =="; git reset --hard origin/main; }; }'
 
 echo === Commit all changes
 chezmoi re-add
@@ -36,8 +30,6 @@ echo === sudo ===
 sudo -E bash -c "$RESYNC && chezmoi update"
 
 echo === Looping through ACCTS to pull updates ===
-# "${ACCTS[@]}" not $ACCTS: the latter expands to the first element only, so
-# this loop silently processed one account out of four.
 for acct in "${ACCTS[@]}"; do
     echo "== Processing $acct =="
     ssh -A "$acct" "$RESYNC && chezmoi update --apply"

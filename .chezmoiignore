@@ -1,4 +1,14 @@
-*~
+# Patterns match the TARGET path, and `*` does not cross `/`. A bare `*~` here
+# only caught top-level backups and let dot_bashrc.d/fzf.sh~ deploy to
+# ~/.bashrc.d/fzf.sh~ on every host.
+**/*~
 DEADJOE
+
+# AI agent rules for this repo, not dotfiles to deploy. The dot-prefixed ones
+# (.cursor, .windsurf, .clinerules, .github, .opencode) chezmoi already ignores,
+# as it does .pre-commit-config.yaml and .talismanrc.
 AGENTS.md
 CLAUDE.md
+
+# Holds the GitHub OAuth token. .config/gh/config.yml is managed; this is not.
+.config/gh/hosts.yml

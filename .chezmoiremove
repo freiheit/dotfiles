@@ -1,17 +1,13 @@
 # Everything here is DELETED from $HOME on every host that applies, and
-# bin/chezmoi-update fans out to five accounts across three machines.
+# bin/chezmoi-update fans out to five accounts across three machines. Keep
+# entries explicit and narrow.
 #
-# The editor-backup globs below are deliberately enumerated per directory rather
-# than written as `**/*~`. A recursive glob here would match every ~-suffixed
-# file anywhere under $HOME -- including ~/Documents, ~/Code and ~/Nextcloud --
-# and delete them on all five accounts. Keep these bounded to directories
-# chezmoi actually manages. (.chezmoiignore is a different story: it is
-# non-destructive, so `**/*~` is correct there.)
-*~
-.bashrc.d/*~
-.config/*~
-.config/*/*~
-bin/*~
+# NOTE: do not add `*~` back here. .chezmoiignore matches editor backups, and an
+# ignored path is skipped by every target-state operation including removal, so
+# a `*~` rule here is silently dead. It was in this file for a long time and
+# never once deleted anything -- ~/.bashrc~ was matched by both files and
+# survived. .chezmoiignore already stops backups from ever deploying; clearing
+# out ones that predate that fix is a one-time `rm`, not chezmoi's job.
 DEADJOE
 .config/fish/themes/Catppuccin Mocha.theme
 .config/fish/themes/Catppuccin Macchiato.theme

@@ -11,3 +11,5 @@ shell-integration-features = sudo,ssh-env
 tab-inherit-working-directory = false
 theme = Gruvbox Dark
 window-decoration = client
+window-height = 60
+window-width = 120

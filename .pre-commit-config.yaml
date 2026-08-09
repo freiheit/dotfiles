@@ -1,0 +1,22 @@
+---
+# Secret-blocking only. This repo carries ssh material and 1Password config and
+# has chezmoi autoCommit/autoPush enabled, so a bad `chezmoi add` would push
+# before anyone looks at it. Broader lint hooks are deliberately not here; lift
+# them from ~/Code/freizzite/.pre-commit-config.yaml if they are ever wanted.
+repos:
+  - repo: https://github.com/betterleaks/betterleaks
+    rev: v1.7.3
+    hooks:
+      - id: betterleaks
+
+  - repo: https://github.com/thoughtworks/talisman
+    rev: v1.37.0
+    hooks:
+      # pre-commit only. talisman-push would fire during chezmoi's autoPush,
+      # after the commit already exists -- too late to be useful.
+      - id: talisman-commit
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key

@@ -1,4 +1,17 @@
+# Everything here is DELETED from $HOME on every host that applies, and
+# bin/chezmoi-update fans out to five accounts across three machines.
+#
+# The editor-backup globs below are deliberately enumerated per directory rather
+# than written as `**/*~`. A recursive glob here would match every ~-suffixed
+# file anywhere under $HOME -- including ~/Documents, ~/Code and ~/Nextcloud --
+# and delete them on all five accounts. Keep these bounded to directories
+# chezmoi actually manages. (.chezmoiignore is a different story: it is
+# non-destructive, so `**/*~` is correct there.)
 *~
+.bashrc.d/*~
+.config/*~
+.config/*/*~
+bin/*~
 DEADJOE
 .config/fish/themes/Catppuccin Mocha.theme
 .config/fish/themes/Catppuccin Macchiato.theme

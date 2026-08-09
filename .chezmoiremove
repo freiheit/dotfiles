@@ -1,13 +1,5 @@
-# Everything here is DELETED from $HOME on every host that applies, and
-# bin/chezmoi-update fans out to five accounts across three machines. Keep
-# entries explicit and narrow.
-#
-# NOTE: do not add `*~` back here. .chezmoiignore matches editor backups, and an
-# ignored path is skipped by every target-state operation including removal, so
-# a `*~` rule here is silently dead. It was in this file for a long time and
-# never once deleted anything -- ~/.bashrc~ was matched by both files and
-# survived. .chezmoiignore already stops backups from ever deploying; clearing
-# out ones that predate that fix is a one-time `rm`, not chezmoi's job.
+# DELETED from $HOME on every host that applies, across five accounts. Keep narrow.
+# Do not add `*~`: .chezmoiignore matches it, and ignored paths skip removal too.
 DEADJOE
 .config/fish/themes/Catppuccin Mocha.theme
 .config/fish/themes/Catppuccin Macchiato.theme

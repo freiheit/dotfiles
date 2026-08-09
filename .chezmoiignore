@@ -1,12 +1,8 @@
-# Patterns match the TARGET path, and `*` does not cross `/`. A bare `*~` here
-# only caught top-level backups and let dot_bashrc.d/fzf.sh~ deploy to
-# ~/.bashrc.d/fzf.sh~ on every host.
+# Patterns match the target path and `*` does not cross `/`, so `**/*~` not `*~`.
 **/*~
 DEADJOE
 
-# AI agent rules for this repo, not dotfiles to deploy. The dot-prefixed ones
-# (.cursor, .windsurf, .clinerules, .github, .opencode) chezmoi already ignores,
-# as it does .pre-commit-config.yaml and .talismanrc.
+# Repo metadata, not dotfiles. Dot-prefixed entries chezmoi ignores already.
 AGENTS.md
 CLAUDE.md
 

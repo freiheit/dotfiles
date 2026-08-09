@@ -1,10 +1,9 @@
 # Patterns match the target path and `*` does not cross `/`, so `**/*~` not `*~`.
 **/*~
-DEADJOE
 
-# Repo metadata, not dotfiles. Dot-prefixed entries chezmoi ignores already.
-AGENTS.md
-CLAUDE.md
+# docs in base don't get installed to ~
+*.md
+*.txt
 
 # Holds the GitHub OAuth token. .config/gh/config.yml is managed; this is not.
 .config/gh/hosts.yml

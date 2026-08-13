@@ -33,5 +33,7 @@
     ],
     "workbench.colorTheme": "Gruvbox Dark Hard",
     "workbench.iconTheme": "gruvbox-icon-theme",
-    "chat.agent.enabled": false
+    "chat.agent.enabled": false,
+    "update.titleBar": false,
+    "update.mode": "manual"
 }

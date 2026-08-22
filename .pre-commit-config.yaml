@@ -6,12 +6,6 @@ repos:
     hooks:
       - id: betterleaks
 
-  - repo: https://github.com/thoughtworks/talisman
-    rev: v1.37.0
-    hooks:
-      # pre-commit only: talisman-push fires during autoPush, after the commit.
-      - id: talisman-commit
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:

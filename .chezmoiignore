@@ -7,3 +7,5 @@
 
 # Holds the GitHub OAuth token. .config/gh/config.yml is managed; this is not.
 .config/gh/hosts.yml
+
+renovate.json

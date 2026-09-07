@@ -1,4 +1,4 @@
-if [ -e ~/.local/share/liquidprompt/liquidprompt ]; then
+if [ "${-#*i}" == "$-" ] && [ -e ~/.local/share/liquidprompt/liquidprompt ]; then
 
     source ~/.local/share/liquidprompt/liquidprompt
 

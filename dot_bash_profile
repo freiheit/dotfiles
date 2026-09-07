@@ -14,3 +14,5 @@ if which fedora-repoquery &> /dev/null; then
 fi
 
 # User specific environment and startup programs
+
+

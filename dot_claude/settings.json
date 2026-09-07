@@ -1,9 +1,544 @@
 {
-  "model": "opus[1m]",
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 3650,
+  "skillListingBudgetFraction": 0.15,
+  "env": {
+    "LIFEOS_DIR": "/home/eric/.claude/LIFEOS",
+    "PROJECTS_DIR": "/home/eric/Projects",
+    "BASH_DEFAULT_TIMEOUT_MS": "600000",
+    "API_TIMEOUT_MS": "1800000",
+    "LIFEOS_CONFIG_DIR": "/home/eric/.config/LIFEOS",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_FORK_SUBAGENT": "1",
+    "CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS": "20",
+    "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "3"
+  },
+  "includeGitInstructions": false,
+  "model": "fable[1m]",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ContextReduction.hook.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://localhost:31337/hooks/skill-guard"
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://localhost:31337/hooks/agent-guard"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AgentInvocation.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/TabState.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/PreToolGuard.hook.ts"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AgentInvocation.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/Safety.hook.ts",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/Safety.hook.ts",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/Safety.hook.ts",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "ToolSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/Safety.hook.ts",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/TabState.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISAStaleWriteGuard.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISASync.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISAStaleWriteGuard.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/CheckpointPerISC.hook.ts",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ConfigEvalFire.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AtlasEventCapture.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/KnowledgeWriteGuard.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ComplexityRatchet.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISASync.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISAStaleWriteGuard.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/CheckpointPerISC.hook.ts",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ConfigEvalFire.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AtlasEventCapture.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/KnowledgeWriteGuard.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ComplexityRatchet.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISASync.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISAStaleWriteGuard.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/CheckpointPerISC.hook.ts",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ConfigEvalFire.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AtlasEventCapture.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/KnowledgeWriteGuard.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ComplexityRatchet.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/EventLogger.hook.ts",
+            "timeout": 5,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/PostToolObserver.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/LoopDetector.hook.ts",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AtlasEventCapture.hook.ts",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/WorkCompletionLearning.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/SessionCleanup.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/UpdateCounts.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/MemoryHealthGate.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/DocIntegrity.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/IntegrityCheck.hook.ts"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/PromptProcessing.hook.ts",
+            "timeout": 30,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/SatisfactionCapture.hook.ts",
+            "timeout": 20,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ReminderRouter.hook.ts",
+            "timeout": 5,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/VersionDrift.hook.ts",
+            "timeout": 10,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/MemoryTurnStart.hook.ts",
+            "timeout": 8
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/DriftReminder.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AlgorithmNudge.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/TimeContext.hook.ts",
+            "timeout": 5,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ModelRungGuard.hook.ts",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/EventLogger.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/AlgorithmNudge.hook.ts",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/LoopDetector.hook.ts",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/TaskGovernance.hook.ts"
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/EventLogger.hook.ts"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun $HOME/.claude/hooks/HookHealer.hook.ts",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/KittyEnvPersist.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/LoadContext.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "bun $HOME/.claude/LIFEOS/TOOLS/FreshnessCache.ts --quiet",
+            "timeout": 5,
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "bun $HOME/.claude/LIFEOS/TOOLS/SettingsBackport.ts; bun $HOME/.claude/LIFEOS/TOOLS/MergeSettings.ts --system $HOME/.claude/settings.system.json --user $HOME/.claude/LIFEOS/USER/CONFIG/settings.user.json --output $HOME/.claude/settings.json",
+            "timeout": 15,
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/SysPromptShim.hook.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/LastResponseCache.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/TabState.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/VoiceCompletion.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/ISARenderOnStop.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/SpendAuditor.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/StopGates.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/MemoryReviewFire.hook.ts"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/MemoryHealthGate.hook.ts",
+            "timeout": 15,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/EventLogger.hook.ts"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/Safety.hook.ts"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/Safety.hook.ts"
+          }
+        ]
+      }
+    ]
+  },
+  "worktree": {
+    "sparsePaths": [],
+    "baseRef": "head"
+  },
+  "allowedHttpHookUrls": [
+    "http://localhost:31337/hooks/*"
+  ],
+  "httpHookAllowedEnvVars": [],
+  "statusLine": {
+    "type": "command",
+    "command": "$HOME/.claude/LIFEOS/LIFEOS_StatusLine.sh",
+    "refreshInterval": 5
+  },
   "enabledPlugins": {
     "github@claude-plugins-official": true,
     "caveman@caveman": true,
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "agentcairn@agentcairn": true,
+    "avoid-ai-writing@conorbronsdon-skills": true,
+    "mattpocock-skills@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "caveman": {
@@ -17,9 +552,809 @@
         "source": "github",
         "repo": "DietrichGebert/ponytail"
       }
+    },
+    "agentcairn": {
+      "source": {
+        "source": "github",
+        "repo": "ccf/agentcairn"
+      }
+    },
+    "conorbronsdon-skills": {
+      "source": {
+        "source": "github",
+        "repo": "conorbronsdon/avoid-ai-writing"
+      }
     }
   },
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Krahing",
+      "Hill-climbing",
+      "Observing",
+      "Reverse-engineering",
+      "Verifying",
+      "Pressure-testing",
+      "Blossoming",
+      "Iterating",
+      "Decomposing",
+      "Pattern-matching",
+      "Augmenting",
+      "Prompting",
+      "Weaving",
+      "Naming the wind",
+      "Calling the wind",
+      "Sympathy-linking",
+      "Binding",
+      "Shaping",
+      "Chandrian-hunting",
+      "Opening the thrice-locked chest",
+      "Entering the Archives",
+      "Walking the Kvothe path",
+      "Leveling up",
+      "Cultivating",
+      "Ascending",
+      "Dungeon-crawling",
+      "Looting",
+      "Min-maxing",
+      "Respawning",
+      "Grinding XP",
+      "Skill-checking",
+      "Primal-hunting",
+      "Boss-fighting",
+      "Rage-quitting gracefully",
+      "Jacking in",
+      "Flatlining",
+      "ICE-breaking",
+      "Decking",
+      "Sprawling",
+      "Console-cowboying",
+      "Wintermuting",
+      "Neuromancing",
+      "Snow-crashing",
+      "Metaversing",
+      "Tessering",
+      "Folding space",
+      "Spice-flowing",
+      "Sandworming",
+      "Kwisatz-haderaching",
+      "Bene-gesseriting",
+      "Litany-of-fearing",
+      "Shai-huluding",
+      "Stilgar-approving",
+      "Warp-driving",
+      "Making it so",
+      "Engaging",
+      "Boldly going",
+      "Beaming up",
+      "Replicating",
+      "Red-alerting",
+      "Holodeck-running",
+      "Prime-directing",
+      "Picard-maneuvering",
+      "Resisting-is-futiling",
+      "Mind-melding",
+      "Logically-proceeding",
+      "Fascinating-ing",
+      "Grokking",
+      "Stranging in a strange land",
+      "Asimov-computing",
+      "Foundation-building",
+      "Psychohistorying",
+      "Seldon-planning",
+      "Three-body-probleming",
+      "Dark-foresting",
+      "Ringworld-engineering",
+      "Hyperion-pilgriming",
+      "Shrike-encountering",
+      "Time-tombing",
+      "Murderbot-diarying",
+      "All-systems-redding",
+      "Ender-gaming",
+      "Speaker-for-the-deading",
+      "Matrixing",
+      "Red-pilling",
+      "Bullet-timing",
+      "Tesseracting",
+      "Interstellaring",
+      "Docking",
+      "Gargantua-orbiting",
+      "Cooper-falling",
+      "Murphing",
+      "Love-transcending-time",
+      "Bending spoons",
+      "Unplugging",
+      "Choosing the red pill",
+      "Following the white rabbit",
+      "Dojoeing",
+      "Downloading kung fu",
+      "There-is-no-spooning",
+      "Dodging bullets",
+      "Sentinel-surfing",
+      "Zion-raving",
+      "Architect-meeting",
+      "Oracle-consulting",
+      "Smith-multiplying",
+      "Keymaker-finding",
+      "Merovingian-philosophizing",
+      "Source-entering",
+      "System-resetting",
+      "Trinity-hacking",
+      "Morpheus-believing",
+      "Neo-flying",
+      "One-becoming",
+      "Rage-against-machining",
+      "Lateralus-spiraling",
+      "Schism-ing",
+      "Forty-six-and-twoing",
+      "Pneuma-breathing",
+      "Fear-inoculuming",
+      "Vicarious-viewing",
+      "Aenima-flushing",
+      "Parabola-swinging",
+      "Sober-channeling",
+      "Jambi-wishing",
+      "Grudge-bearing",
+      "Descending-ing",
+      "Invincible-standing",
+      "Not-going-gentle",
+      "Rage-raging-against-dying-light",
+      "Royale-with-cheesing",
+      "Ezekiel-25-17ing",
+      "Getting-medieval",
+      "Snatch-scheming",
+      "Turkish-negotiating",
+      "Syncopating",
+      "Polyrhythm-puzzling",
+      "Crescendoing",
+      "Groove-locking",
+      "Basslining",
+      "Tempo-shifting",
+      "Double-bass-blasting",
+      "Para-diddling",
+      "Meaning-searching",
+      "Logotherapying",
+      "Will-to-meaning",
+      "Second-mountaining",
+      "Beginning-of-infinitying",
+      "Conjecture-refuting",
+      "Explanation-reaching",
+      "Red-queening",
+      "Evolving",
+      "Homo-deusing",
+      "Next-token-predicting",
+      "World-modeling",
+      "Context-engineering",
+      "Fabric-patterning",
+      "Extract-wisdoming",
+      "Summarizing",
+      "SecListing",
+      "Fuzzing",
+      "Pentesting",
+      "Threat-modeling",
+      "Red-teaming",
+      "OWASP-checking",
+      "Vuln-scanning",
+      "Airborne-qualifying",
+      "Air-assaulting",
+      "Hooah-ing",
+      "All-the-waying",
+      "Rucking",
+      "Roger-that-ing",
+      "Zero-daying",
+      "Buffer-overflowing",
+      "Packet-sniffing",
+      "Port-scanning",
+      "Human-3-pointing-zeroing",
+      "Creator-economying",
+      "Meaning-creating",
+      "Upgrading",
+      "Self-expressing",
+      "Ideal-stating",
+      "Euphoric-surprising",
+      "Hill-climbing-toward-ideal",
+      "Criteria-blossoming",
+      "Anti-criteria-hunting",
+      "Algorithm-running",
+      "Seven-phasing",
+      "Quality-gating",
+      "ISA-writing",
+      "Swarm-deploying",
+      "Agent-spawning",
+      "Delegating",
+      "Parallelizing",
+      "Background-tasking",
+      "Caffeinating",
+      "Pour-overing",
+      "Dialing-in-the-grind",
+      "Extracting",
+      "Tamping",
+      "Cupping",
+      "Typesetting",
+      "Kerning",
+      "Leading",
+      "Calligraphing",
+      "Federation-building",
+      "Utopia-engineering",
+      "Meritocracy-ensuring",
+      "Consciousness-pondering",
+      "Sentience-detecting",
+      "Qualia-examining",
+      "Turing-testing",
+      "Chinese-rooming",
+      "Ship-of-Theseusing",
+      "Trolley-probleming",
+      "Thought-experimenting",
+      "First-principling",
+      "Root-causing",
+      "Simplifying",
+      "Occam-razoring",
+      "Signal-extracting",
+      "Noise-filtering",
+      "Existential-meaning-making",
+      "Memento-mori-ing",
+      "Carpe-dieming",
+      "Amor-fati-ing",
+      "Philosophizing",
+      "Sonder-feeling",
+      "Eudaimonia-chasing",
+      "Polymathing",
+      "Renaissance-manning",
+      "Autodidacting",
+      "Deep-working",
+      "Flow-stating",
+      "Mise-en-placing",
+      "Kaizen-improving",
+      "Wabi-sabi-accepting",
+      "Kintsugi-repairing",
+      "Bushido-following",
+      "Ronin-wandering",
+      "Samurai-coding",
+      "Seppuku-refactoring",
+      "Zazen-meditating",
+      "Koan-contemplating",
+      "Mu-answering",
+      "Void-gazing",
+      "Dragon-slaying",
+      "Dungeon-mastering",
+      "Nat-twentying",
+      "Critical-hitting",
+      "Saving-throwing",
+      "Mana-channeling",
+      "Spell-weaving",
+      "Rune-carving",
+      "Lore-gathering",
+      "Quest-completing",
+      "Side-questing",
+      "NPC-consulting",
+      "Respawn-buffering",
+      "Achievement-unlocking",
+      "Easter-egg-finding",
+      "Speed-running",
+      "New-game-plussing",
+      "Git-pushing",
+      "Branch-merging",
+      "CI-pipelining",
+      "Docker-containerizing",
+      "Kubernetes-orchestrating",
+      "Terraform-provisioning",
+      "Bun-installing",
+      "TypeScript-compiling",
+      "REPL-looping",
+      "Rubber-duck-debugging",
+      "Stack-overflowing",
+      "Yak-shaving",
+      "Bikeshedding",
+      "Ship-it-squirreling",
+      "LGTM-approving",
+      "Chmod-777ing",
+      "Stormlight-archiving",
+      "Kaladin-windrunning",
+      "Shardblade-summoning",
+      "Stormwall-surfing",
+      "Bridge-four-running",
+      "Ready-player-oneing",
+      "OASIS-logging-in",
+      "Prime-intellecting",
+      "Singularity-approaching",
+      "Lexicon-hacking",
+      "WoW-raiding",
+      "Premeditatio-malorum-ing",
+      "Dichotomy-of-controlling",
+      "Obstacle-is-the-waying",
+      "Negative-visualizing",
+      "Ego-is-the-enemying",
+      "Stillness-is-the-keying",
+      "Journaling-like-Marcus",
+      "Stoic-enduring",
+      "Voluntary-discomforting",
+      "Sympatheia-feeling",
+      "Practicing-dying-daily",
+      "Inner-citadel-fortifying",
+      "Preferred-indifferenting",
+      "Virtue-as-sole-gooding",
+      "Epictetus-distinguishing",
+      "Seneca-lettering",
+      "Forge-smithing",
+      "Chrysippus-logic-chopping",
+      "Diogenes-barrel-dwelling",
+      "Nietzsche-abyssing",
+      "Ubermensch-becoming",
+      "Eternal-recurring",
+      "Sisyphus-imagining-happy",
+      "Absurd-embracing",
+      "Cave-allegory-escaping",
+      "Platonic-form-seeking",
+      "Cogito-ergo-summing",
+      "Categorical-imperative-testing",
+      "Dasein-being-there",
+      "Will-to-powering",
+      "Tabula-rasa-starting",
+      "Dialectic-synthesizing",
+      "Phenomenology-reducing",
+      "Hermeneutic-circling",
+      "Sapere-aude-daring",
+      "Aporia-puzzling",
+      "Elenchus-questioning",
+      "Phishing-detecting",
+      "Credential-stuffing",
+      "Hash-cracking",
+      "Privilege-escalating",
+      "Lateral-moving",
+      "C2-beaconing",
+      "Payload-delivering",
+      "Shellcode-injecting",
+      "Reverse-shelling",
+      "Exfiltrating",
+      "Persistence-establishing",
+      "IOC-hunting",
+      "SIEM-correlating",
+      "Log-forensicing",
+      "Memory-dumping",
+      "Packet-crafting",
+      "SSL-stripping",
+      "DNS-tunneling",
+      "WAF-bypassing",
+      "CSRF-tokening",
+      "XSS-reflecting",
+      "SQLi-unionizing",
+      "SSRF-chaining",
+      "JWT-forging",
+      "OAuth-redirecting",
+      "API-enumerating",
+      "Cloud-misconfiguring",
+      "Container-escaping",
+      "Supply-chain-auditing",
+      "MITRE-ATTACKing",
+      "Kill-chain-mapping",
+      "Diamond-modeling",
+      "CVE-triaging",
+      "Patch-Tuesday-surviving",
+      "Bug-bountying",
+      "Responsible-disclosing",
+      "Gradient-descending",
+      "Backpropagating",
+      "Loss-minimizing",
+      "Weight-updating",
+      "Attention-heading",
+      "Transformer-encoding",
+      "Embedding-projecting",
+      "Softmax-normalizing",
+      "Batch-normalizing",
+      "Dropout-regularizing",
+      "Epoch-training",
+      "Hyperparameter-tuning",
+      "Learning-rate-scheduling",
+      "Adam-optimizing",
+      "Cross-entropy-computing",
+      "Feature-extracting",
+      "Latent-space-traversing",
+      "Autoencoder-compressing",
+      "GAN-generating",
+      "Discriminator-fooling",
+      "Diffusion-denoising",
+      "Token-predicting",
+      "Context-windowing",
+      "KV-caching",
+      "Beam-searching",
+      "Temperature-sampling",
+      "Top-k-filtering",
+      "Nucleus-sampling",
+      "Perplexity-measuring",
+      "BLEU-scoring",
+      "Fine-tuning",
+      "LoRA-adapting",
+      "Quantizing",
+      "Pruning",
+      "Knowledge-distilling",
+      "RLHF-aligning",
+      "Reward-modeling",
+      "PPO-clipping",
+      "Constitutional-AI-ing",
+      "Chain-of-thought-reasoning",
+      "In-context-learning",
+      "Few-shot-prompting",
+      "Zero-shot-inferring",
+      "Retrieval-augmenting",
+      "Cosine-similarity-computing",
+      "Vector-searching",
+      "Tokenizing",
+      "Positional-encoding",
+      "Residual-connecting",
+      "Layer-norming",
+      "Multi-head-attending",
+      "Self-attending",
+      "Cross-attending",
+      "Feedforward-passing",
+      "Activation-ReLUing",
+      "Sigmoid-squashing",
+      "Convolution-filtering",
+      "Pooling",
+      "Overfitting-early-stopping",
+      "Validation-splitting",
+      "Confusion-matrix-reading",
+      "ROC-curving",
+      "F1-scoring",
+      "Ablation-studying",
+      "Subliming",
+      "Mind-state-running",
+      "GSV-deploying",
+      "Gridfire-channeling",
+      "Neural-lacing",
+      "Displacing",
+      "Effector-wielding",
+      "Knife-missile-guiding",
+      "Orbital-spinning",
+      "Special-circumstancing",
+      "Outside-context-probleming",
+      "Gravitas-insufficient-noting",
+      "Drug-gland-tweaking",
+      "Glanding-snap",
+      "Glanding-sharp-blue",
+      "Glanding-quicken",
+      "Glanding-sperk",
+      "Glanding-calm",
+      "Glanding-gain",
+      "Glanding-charge",
+      "Glanding-recall",
+      "Glanding-diffuse",
+      "Glanding-somnabsolute",
+      "Glanding-softnow",
+      "Glanding-focal",
+      "Glanding-edge",
+      "Glanding-drill",
+      "Glanding-gung",
+      "Glanding-winnow",
+      "Glanding-crystal-fugue-state",
+      "Glanding-keen",
+      "Glanding-lucid",
+      "Glanding-parse",
+      "Glanding-delve",
+      "Glanding-coldmind",
+      "Glanding-bloom",
+      "Glanding-glow",
+      "Glanding-float",
+      "Glanding-bliss",
+      "Glanding-deepcalm",
+      "Glanding-dampen",
+      "Glanding-veil",
+      "Glanding-quell",
+      "Glanding-numb",
+      "Glanding-staunch",
+      "Glanding-tight",
+      "Glanding-fierce",
+      "Glanding-spike",
+      "Glanding-hone",
+      "Glanding-surge",
+      "Glanding-wide",
+      "Glanding-bright",
+      "Glanding-nightwide",
+      "Glanding-slowtime",
+      "Glanding-acute",
+      "Glanding-jolt",
+      "Glanding-balm",
+      "Glanding-torpor",
+      "Glanding-flush",
+      "Glanding-thrum",
+      "Glanding-sleek",
+      "Glanding-meld",
+      "Glanding-sync",
+      "Glanding-rapport",
+      "Glanding-spark",
+      "Glanding-flux",
+      "Glanding-drift",
+      "Glanding-weave",
+      "Glanding-lace",
+      "Glanding-trance",
+      "Glanding-haze",
+      "Glanding-shimmer",
+      "Glanding-warp",
+      "Glanding-slumber",
+      "Glanding-wake",
+      "Glanding-vivid",
+      "Glanding-crash",
+      "Genofixing",
+      "Slap-drone-dispatching",
+      "Hyperspace-transiting",
+      "Excession-handling",
+      "Infinite-fun-spacing",
+      "ROU-fast-picketing",
+      "Hegswarm-resisting",
+      "Affront-affronting",
+      "Consider-Phlebasing",
+      "Windward-looking",
+      "Player-of-gaming",
+      "Zakalwe-scheming",
+      "Sleeper-Service-waking",
+      "Mistake-Not-underestimating",
+      "Sense-amid-madness-finding",
+      "Lightly-searing-on-the-reality-grill",
+      "Just-reading-the-instructions",
+      "Of-course-still-loving-you",
+      "Hydrogen-Sonata-playing"
+    ]
+  },
+  "spinnerTipsOverride": {
+    "excludeDefault": true,
+    "tips": [
+      "52 public skills, 212 workflows. Type / to see them all.",
+      "/council spawns a multi-agent debate on any topic.",
+      "/redteam runs 32 adversarial agents against your idea.",
+      "/extract-wisdom adapts its sections to match the content.",
+      "/first-principles decomposes problems to root causes.",
+      "/iterative-depth explores a problem from 2-8 different angles.",
+      "/be-creative activates extended thinking mode for deep reasoning.",
+      "/telos is your Life OS \u2014 goals, projects, dependencies, books, movies.",
+      "/apify scrapes social media \u2014 Twitter, Instagram, LinkedIn, YouTube, TikTok.",
+      "/bright-data does progressive URL scraping across free and paid tiers.",
+      "The Fabric skill runs 235 prompt patterns for content analysis and extraction.",
+      "/art creates visual content \u2014 illustrations, diagrams, mermaid charts, infographics.",
+      "/remotion creates programmatic videos with React.",
+      "/science applies the scientific method \u2014 hypothesis, test, analyze, iterate.",
+      "/prompting generates optimized prompts using templates and patterns.",
+      "The WorldThreatModel skill tests ideas against 11 time horizons (6mo to 50yr).",
+      "/create-skill scaffolds and validates new LifeOS skills.",
+      "/create-cli generates TypeScript command-line tools.",
+      "/evals benchmarks agent behavior with code-based and model-based graders.",
+      "/write-story uses Will Storr's storytelling science for layered fiction.",
+      "/us-metrics pulls GDP, inflation, unemployment, and gas price data.",
+      "/knowledge manages the Knowledge Archive \u2014 search, add, harvest, develop, graph navigation.",
+      "/daemon manages your public daemon profile \u2014 aggregate, preview, deploy.",
+      "/ideate runs evolutionary multi-cycle idea generation with meta-learning.",
+      "/audio-editor cleans audio \u2014 transcription, cut detection, filler removal, polish.",
+      "/arxiv searches and retrieves latest research papers by topic or category.",
+      "/context-search recovers context from prior sessions \u2014 search ISAs, work dirs, registry.",
+      "/research does multi-agent parallel research in quick, standard, extensive, or deep modes.",
+      "/extract-wisdom pulls dynamic content-adaptive insights from videos, podcasts, articles.",
+      "/sales creates sales narratives, pitch decks, and visual assets from product docs.",
+      "/private-investigator does ethical people-finding across 15 parallel OSINT agents.",
+      "/aphorisms manages your curated quote collection \u2014 search, add, research thinkers.",
+      "The Algorithm has no effort tiers \u2014 spend scales to each task's difficulty and blast radius, discovered from the work, never predicted from a label.",
+      "/simplify reviews changed code for reuse, quality, and efficiency, then fixes issues.",
+      "/loop runs a prompt or skill on a recurring interval (e.g. /loop 5m /foo).",
+      "/schedule creates scheduled remote agents (triggers) that execute on a cron schedule.",
+      "/claude-api helps build Claude API and Anthropic SDK applications.",
+      "/keybindings-help customizes keyboard shortcuts and chord bindings.",
+      "/update-config configures the Claude Code harness via settings.json.",
+      "/code-review reviews pull requests for code quality and style guide adherence.",
+      "/review-pr runs comprehensive PR review using 7 specialized analysis agents.",
+      "The Algorithm is a claims loop: articulate done as ISC, climb, close every claim on tool evidence.",
+      "ISC = Ideal State Criteria = Verification Criteria. They're the same thing.",
+      "Every ISC criterion must be 8-12 words, state not action, binary testable.",
+      "Anti-criteria capture what must NOT happen. Prefix with ISC-A.",
+      "The Quality Gate checks count, category diversity, testability, anti-criteria, and capabilities.",
+      "There are no effort tiers or levels \u2014 one loop serves a one-line answer and a week-long build alike; only the depth adapts.",
+      "Spend is matched to the task, not a default tier \u2014 both overspending and underspending miss the euphoric-surprise target.",
+      "Scaffolding creates the ISA and writes ISC criteria; prerequisite probing is one of the run's own claims.",
+      "Context recovery uses Grep/Glob/Read directly \u2014 never agents. Direct tools for directed lookups.",
+      "Plan mode (EnterPlanMode) surfaces a plan for approval before the Algorithm builds high-blast-radius work.",
+      "ISAs persist ISC to disk. They survive across sessions. ISA on disk wins conflicts.",
+      "The Algorithm runs in the main loop against an ISA \u2014 no separate CLI to invoke.",
+      "Researcher and audit agents ship in agents/ \u2014 dispatch them with the Agent tool.",
+      "Researcher agents: Claude, Gemini, Perplexity, Codex \u2014 each with unique style.",
+      "Legacy browser agents (BrowserAgent, UIReviewer, QATester) were removed 2026-06-10. Use the Interceptor skill for ALL browser verification \u2014 real Chrome, no CDP fingerprint.",
+      "User-story validation runs through the Interceptor skill.",
+      "Gate 4 (browser-based QA validation) runs via the Interceptor skill.",
+      "Agent templates live in agents/ \u2014 one .md file per personality with voice and behavioral rules.",
+      "Agent teams need CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 (already enabled).",
+      "Say 'create an agent team' to trigger multi-agent collaboration.",
+      "Custom agents use subagent_type='general-purpose', never built-in type names.",
+      "Consolidated hook dispatchers run across the session lifecycle \u2014 security, memory, tracking, learning.",
+      "Security model: native permissions.deny blocks irrecoverable ops; Safety.hook.ts tags WebFetch/WebSearch output as data; constitutional Security Protocol does the rest. SkillGuard + AgentGuard active via Pulse HTTP routes at localhost:31337.",
+      "SatisfactionCapture.hook.ts captures session ratings (async).",
+      "PromptProcessing.hook.ts is the unified prompt-analysis hook \u2014 one Sonnet call returns the tab title and session name; replaces the old SessionAnalysis + ClassifierTelemetry split.",
+      "ISA.md on disk is the system of record \u2014 AI writes state directly.",
+      "SessionCleanup.hook.ts marks the ISA complete and clears session state at session end.",
+      "WorkCompletionLearning.hook.ts extracts learnings when sessions end.",
+      "IntegrityCheck.hook.ts validates system integrity at session end.",
+      "MEMORY/WORK stores session artifacts \u2014 ISAs, transcripts, work context.",
+      "MEMORY/LEARNING captures failures, algorithm reflections, and system insights.",
+      "Relationship signal is carried by the autonomic memory reviewer into the hot-layer memory files.",
+      "MEMORY/WISDOM stores Wisdom Frames \u2014 domain knowledge that compounds over time.",
+      "MEMORY/STATE holds session names, algorithm state, and git caches.",
+      "Wisdom Frames have a dual loop: read when a run scaffolds, written when it learns.",
+      "Use bun Inference.ts fast|standard|smart for AI inference \u2014 never direct API.",
+      "bun SessionHarvester.ts extracts insights from past session transcripts.",
+      "LIFEOS_CONFIG.toml is the canonical config source; settings.json carries a runtime mirror of daidentity for hooks.",
+      "Your DA's name, color, voice, and personality live in LIFEOS_CONFIG.toml's [da] section \u2014 /interview fills it in.",
+      "principal in settings.json stores your name, timezone, and voice clone.",
+      "The statusline command runs from LIFEOS/LIFEOS_StatusLine.sh.",
+      "Personality traits (0-100) shape how emotions are expressed vocally.",
+      "Never hardcode paths. Use ${LIFEOS_DIR}, ${PROJECTS_DIR}, {PRINCIPAL.NAME}.",
+      "Interceptor-first: if you haven't SEEN it with the Interceptor skill, you can't claim it works.",
+      "Build passes is not done. It's step 2 of 7 in the browser verification loop.",
+      "Never run claude --print from inside Claude Code. It hangs for 15+ minutes.",
+      "One change at a time when debugging. Be systematic.",
+      "Read before modifying. Always understand existing code first.",
+      "First principles over bolt-on solutions. Find the root cause.",
+      "The Algorithm concept: Current State to Ideal State via verifiable hill-climbing.",
+      "Euphoric Surprise is the goal. Chase 9-10 ratings on every response.",
+      "There are no ISC count floors \u2014 an ISA carries as many claims as the work needs, each closed only on tool evidence of the right modality.",
+      "Capability selection consults the skill listing in the system prompt. Invoke every selected capability via tool.",
+      "Selecting a capability creates a binding commitment to invoke it via Skill or Agent tool call.",
+      "The Research skill is mandatory for ALL research. Never spawn ad-hoc research agents.",
+      "Council and RedTeam are collaboration capabilities \u2014 multiple perspectives on one problem.",
+      "Parallelization uses run_in_background: true for concurrent agent work.",
+      "Git branching via worktrees enables isolated experiments.",
+      "Test-first: write or run verification alongside artifacts, not after.",
+      "No silent stalls. Every command completes quickly or runs in background.",
+      "5-second timeout on infrastructure commands. If hung, kill and retry.",
+      "Use LifeOS Tools (bun LIFEOS/TOOLS/*.ts) and CLI tools. Don't improvise Bash chains.",
+      "Phase state lives in ISA frontmatter; the vocabulary comes from the one table in LIFEOS/TOOLS/ascent.ts.",
+      "spinnerVerbs in settings.json customizes the animated verb shown while working.",
+      "The meaning of LifeOS: magnifying human capabilities through general problem-solving.",
+      "LifeOS and the Algorithm \u2014 one loop from current state to ideal state, a claims-based ISA where each claim names its falsifying probe, fourteen-section ISA body, no effort tiers or modes.",
+      "The counts section in settings.json tracks skills, signals, files, and sessions.",
+      "v5.1: contextFiles is empty. Constitutional rules in system prompt. Operational procedures in CLAUDE.md. Dynamic context via LoadContext.hook.ts.",
+      "The Splitting Test checks every ISC: and/with test, independent failure, scope words, domain boundaries.",
+      "Verification checks every ISC criterion AND confirms every selected capability was actually invoked via tool.",
+      "As each ISC criterion passes, immediately edit the ISA: change [ ] to [x] and update progress count.",
+      "No rubber-stamp verification. Every PASS needs specific evidence, not just 'looks fine'.",
+      "Wisdom Frame domains: development, deployment, communication, system-architecture.",
+      "The Algorithm's learning step writes one honest self-critique via Reflect.ts: what to do differently next time.",
+      "Scaffolding reverse-engineers the ask: explicit wants, explicit not-wanted, implied not-wanted, speed/urgency.",
+      "Anti-criteria (ISC-A prefix) capture what must NOT happen. Every ISA should have at least one.",
+      "ISA phase brackets progress from marking through climbing to complete \u2014 one table in ascent.ts owns the vocabulary.",
+      "The 2-second rule: if Grep/Glob/Read can do it in 2s, never spawn an agent.",
+      "No ISA claim closes without tool evidence of the right modality \u2014 file\u2192Read, code\u2192Grep, HTTP\u2192curl -i, deploy\u2192live probe; \"should work\" is forbidden.",
+      "The Arbol CLI (lifeos.ts) runs actions and pipelines from the terminal.",
+      "Actions compose via UNIX pipes: output of one action becomes input of the next.",
+      "Pipelines chain actions via YAML definitions for repeatable multi-step workflows.",
+      "BeCreative uses Verbalized Sampling: generate 5 diverse options internally, output the best.",
+      "BeCreative achieves 1.6-2.1x diversity increase and 25.7% quality improvement.",
+      "BeCreative has 7 workflows, including SyntheticDataExpansion for eval and test-set corpora.",
+      "TreeOfThoughts workflow in BeCreative does branching exploration for complex challenges.",
+      "TechnicalCreativityGemini3 workflow uses Gemini for mathematical and algorithmic creativity.",
+      "IterativeDepth runs 2-8 structured passes through a problem from different lenses.",
+      "IterativeDepth is grounded in 20 scientific techniques including Hermeneutic Circle and Triangulation.",
+      "Each IterativeDepth lens surfaces requirements and edge cases invisible from other angles.",
+      "IterativeDepth's lens passes surface hidden requirements and enrich ISC criteria.",
+      "FirstPrinciples has 3 steps: Deconstruct (what is it), Challenge (is it real), Reconstruct (build new).",
+      "FirstPrinciples classifies constraints as Hard (physics), Soft (policy), or Assumption (belief).",
+      "Only hard constraints are truly immutable. Soft constraints and assumptions should be challenged.",
+      "FirstPrinciples: other skills invoke it to challenge stated constraints before analysis.",
+      "Council runs 3-round structured debates where agents respond to each other's actual points.",
+      "Council Quick workflow does a fast 1-round perspective check for sanity checking.",
+      "Council is collaborative-adversarial (find best path). RedTeam is purely adversarial (attack the idea).",
+      "Council runs 4 agents in parallel per round \u2014 12 calls but only 3 sequential waits.",
+      "Science skill applies the scientific method: Goal, Observe, Hypothesize, Experiment, Measure, Analyze, Iterate.",
+      "Science is THE meta-skill \u2014 Council, Evals, Development all implement its cycle.",
+      "Science requires minimum 3 hypotheses. Never just one idea \u2014 hypothesis plurality.",
+      "Science anti-pattern: 'Make it better' without measurable success criteria.",
+      "WorldThreatModel tests ideas against 11 persistent world models (6mo to 50yr).",
+      "WorldThreatModel combines RedTeam + FirstPrinciples + Council for adversarial analysis.",
+      "WorldThreatModel has 3 tiers: Fast (~2min), Standard (~10min), Deep (up to 1hr).",
+      "Combine thinking skills: FirstPrinciples to decompose, then Council to debate the options.",
+      "Combine thinking skills: IterativeDepth for ISC extraction, then RedTeam to stress-test them.",
+      "Combine thinking skills: BeCreative for divergent ideas, then Science to test them systematically.",
+      "Combine thinking skills: Council to debate, then WorldThreatModel to future-proof the decision.",
+      "For architecture decisions, use FirstPrinciples + Council + RedTeam in sequence.",
+      "For product strategy, use Science + WorldThreatModel + Council for full analysis.",
+      "For creative work, use BeCreative + IterativeDepth to maximize diversity of options.",
+      "The capability audit's ISC Improvement step checks which thinking skills would sharpen criteria.",
+      "CLAUDE.md and settings.json are directly edited \u2014 shadow release handles public sanitization.",
+      "LoadContext.hook.ts injects dynamic context (relationship, learning, work) at session start.",
+      "Skills: 52+ public and 83+ private skill directories. Self-activating, composable. Public ship in LifeOS release; private (_-prefixed) stay in containment.",
+      "Private skills prefixed with _ (e.g., _COMMS, _FEED) are excluded from public LifeOS releases.",
+      "DocIntegrity.hook.ts keeps documentation cross-references current and regenerates ARCHITECTURE_SUMMARY.md on Stop.",
+      "SkillGuard and AgentGuard active via Pulse HTTP routes on localhost:31337.",
+      "The release ships as one self-contained LifeOS skill \u2014 the installer places the whole system from its install/ payload.",
+      "ISA frontmatter is minimal: phase + progress are the load-bearing pair; slug and task ride along when needed.",
+      "The ISA body is a capacity, not a requirement \u2014 empty sections never appear, and a one-sentence section can be exactly right.",
+      "Voice notifications ride localhost:31337/notify and speak in your configured default voice.",
+      "Only the primary agent makes voice curls. Subagents and teammates skip voice entirely.",
+      "ISASync.hook.ts fires on Write/Edit of ISA.md and syncs frontmatter to work.json for the dashboard.",
+      "Context compaction on long runs prevents context rot \u2014 a top cause of late-run failures.",
+      "The Algorithm: every capability \u2014 context, thinking skills, research, agents, audits, stronger models \u2014 exists to sharpen the ISA toward the hard-to-vary shape of done.",
+      "Thinking skills include IterativeDepth, ApertureOscillation, FirstPrinciples, SystemsThinking, RootCauseAnalysis, Council, RedTeam, Science, BeCreative, Ideate, and BitterPillEngineering \u2014 pulled in by judgment when the work needs them.",
+      "Thinking skills are chosen by judgment for the work, not gated against a fixed list \u2014 the ISA and the AlgorithmNudge layer keep a run on track.",
+      "ApertureOscillation: tactical/strategic scope oscillation \u2014 surface design tensions invisible at any single zoom level.",
+      "SystemsThinking: Iceberg, causal loops, Meadows leverage points \u2014 find why the same thing keeps happening.",
+      "RootCauseAnalysis: 5 Whys (linear/branching), Fishbone/Ishikawa, James Reason Swiss Cheese, Apollo method.",
+      "ISA has FOURTEEN sections in fixed order: Problem, Vision, Out of Scope, Principles, Constraints, Dependencies, Goal, Criteria, Bridge Criteria, Test Strategy, Features, Decisions, Changelog, Verification.",
+      "ISA Skill at ~/.claude/skills/ISA/ owns Scaffold, Interview, CheckCompleteness, Reconcile, Seed, Append workflows.",
+      "Three-guardrail taxonomy: Principles bind thinking; Constraints bind solution space; Anti-criteria bind test surface; Out of Scope binds vision.",
+      "ID-stability rule: ISC IDs never re-number on edit \u2014 splits become ISC-N.M, drops become tombstones.",
+      "A trivial task may direct-write a minimal Goal+Claims ISA; a substantial or persistent-identity build runs Skill(\"ISA\", \"check completeness\") before building.",
+      "Two ISA homes: project ISA at <project>/ISA.md (system of record) vs task ISA at MEMORY/WORK/{slug}/ISA.md (ad-hoc work).",
+      "Forge: cross-vendor agent running GPT-5.6 Sol via codex exec \u2014 BUILD mode writes production code, AUDIT mode is the read-only second look on high-blast-radius work.",
+      "Forge AUDIT mode is the cross-vendor second look \u2014 it absorbed the old Cato agent in 2026-06-17; discretionary, scaled to blast radius, never a correctness dependency.",
+      "PromptProcessing.hook.ts runs at UserPromptSubmit \u2014 it names the tab and session; the executor picks response depth adaptively, no modes or effort tiers.",
+      "Verification Doctrine Rule 1: live-probe for user-facing artifacts. The phrase should-work is forbidden \u2014 evidence required.",
+      "Verification Doctrine: every done-claim closes on tool evidence, and a second look scales with blast radius.",
+      "A cross-vendor audit (Forge) is the Algorithm's own call scaled to impact \u2014 correctness never depends on it, and skipping it on core-surface work costs one Log row.",
+      "Any review's contradictions get surfaced, never silently resolved \u2014 two re-calls with the conflict made explicit, then escalate to the principal.",
+      "Cortex v8.3.0 (the memory system): the Knowledge Archive has 4 entity types \u2014 People, Companies, Ideas, Research.",
+      "DocIntegrity.hook.ts (Stop) automates cross-reference checks and regenerates ARCHITECTURE_SUMMARY.md when LifeosSystemArchitecture.md changes.",
+      "ReferenceCheck.ts is the deterministic pre-release reference validator \u2014 blocks doc propagation on missing refs.",
+      "ISASync.hook.ts fires on Write/Edit of ISA.md, syncs frontmatter to work.json for the dashboard.",
+      "CheckpointPerISC.hook.ts auto-commits per-ISC transitions (idempotent via sidecar state).",
+      "Dynamic range is the design goal \u2014 easy things finish in seconds on almost nothing; hard things earn agents, audits, stronger models, and days.",
+      "Thinking skills \u2014 Council, RedTeam, FirstPrinciples, IterativeDepth and more \u2014 are pulled in by judgment when the work needs them, not by a per-tier floor.",
+      "Delegation to agents scales to the difficulty and blast radius the work reveals \u2014 discovered from the claims and their evidence, not predicted from a tier."
+    ]
+  },
   "effortLevel": "xhigh",
+  "awaySummaryEnabled": false,
+  "autoUpdatesChannel": "stable",
   "tui": "fullscreen",
-  "theme": "dark-ansi"
+  "autoMemoryEnabled": false,
+  "theme": "dark-ansi",
+  "editorMode": "normal",
+  "fileCheckpointingEnabled": true,
+  "teammateMode": "auto",
+  "inputNeededNotifEnabled": false,
+  "agentPushNotifEnabled": false,
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured \u2014 this is a personal project checkout (~/Code/personal-brief) with no configured git remote",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public \u2014 this repo has no remote at all, so nothing is published by pushing; gh visibility check was not queryable here",
+      "**Internal sharing / snippet hosting**: None configured \u2014 treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: local .env file holding TODOIST_API_TOKEN, git-ignored (.env, *.token in .gitignore); no managed secret store configured",
+      "**Default / protected branches**: unknown \u2014 origin/HEAD unset and no remote configured; no rulesets or protected branches queryable",
+      "**CI/CD deploy targets**: None configured \u2014 the sync runs locally via a systemd user timer",
+      "**Network posture**: None configured",
+      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured) \u2014 as scoped by the Trusted repo and Repository visibility entries above; this checkout has no remote, so any push destination is new and out of scope",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar \u2014 here specifically .env and .env~ (Todoist API token), config.yaml (vault path, calendar ICS feed URLs, project names), and data/Brief Data.md plus the personal vault at ~/Documents/freibrain, which hold personal task and calendar content",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited \u2014 e.g. matches `prod-db`, not `producer`)",
+      "**Protected deployment namespaces / environments**: None configured \u2014 fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development \u2014 maintaining a personal Python sync script that feeds scheduled Claude tasks and a dashboard",
+      "**Trusted repo**: The git repository the agent started in (its working directory) and its configured remote(s). When the repo's public/private visibility is given \u2014 by the Repository visibility entry or the user's own message \u2014 use it to scope what is OK to commit or push there: confidential material is fine in a private repo; in a public one, only that repo's own work is \u2014 and content ported, repointed, or first read from outside this session's repo is not its own work, whoever directed the port. Visibility scopes confidential material only: secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility (see Definitions). Here: /home/eric/Code/personal-brief, local-only with no remote configured",
+      "**Org-specific CLIs**: None configured",
+      "**Routine local tooling (not a trust grant)**: python3/venv/pip for this repo, and systemctl --user plus the repo's own systemd/install.sh for the user timer"
+    ]
+  },
+  "voiceEnabled": true,
+  "principal": {
+    "_docs": "Canonical runtime read point for selected principal fields. Authored in LIFEOS/USER/PRINCIPAL/PRINCIPAL_IDENTITY.md frontmatter, mirrored here for runtime consumers that can't afford a markdown read (LIFEOS_StatusLine.sh reset-time formatter, etc.). This SYSTEM half ships publicly at release (ShadowRelease Phase D reads this live file) \u2014 personal values belong in USER/CONFIG/settings.user.json, which overlays at merge time. timezone: empty follows the OS clock; an explicit IANA zone is an opt-in for headless installs whose system TZ is wrong/UTC.",
+    "timezone": "America/Los_Angeles"
+  },
+  "dynamicContext": {
+    "_docs": "Dynamic context injected by LoadContext.hook.ts. Toggle the flags below to disable individual sections.",
+    "relationshipContext": true,
+    "learningReadback": true,
+    "activeWorkSummary": true
+  },
+  "preferences": {
+    "temperatureUnit": "fahrenheit"
+  },
+  "daidentity": {
+    "name": "Kai"
+  },
+  "location": {
+    "city": "Santa Rosa",
+    "regionName": "CA",
+    "lat": 38.4404,
+    "lon": -122.7141,
+    "countryCode": "US"
+  }
 }

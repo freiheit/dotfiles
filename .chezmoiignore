@@ -1,5 +1,6 @@
 # Patterns match the target path and `*` does not cross `/`, so `**/*~` not `*~`.
 **/*~
+**/DEADJOE
 
 # docs in base don't get installed to ~
 *.md

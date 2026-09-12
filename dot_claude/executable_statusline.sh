@@ -179,7 +179,7 @@ git_state() {
         color=$CLEAN
     fi
 
-    git_plain=" $branch" git_color="$(c "$color" " $branch")"
+    git_plain=" $branch" git_color="$(c "$color" " $branch")"
     add() { # add COLOR MARK COUNT
         ((${3:-0})) || return 0
         git_plain+=" $2$3" git_color+=" $(c "$1" "$2$3")"

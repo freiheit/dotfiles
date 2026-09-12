@@ -529,7 +529,7 @@
   "httpHookAllowedEnvVars": [],
   "statusLine": {
     "type": "command",
-    "command": "$HOME/.claude/LIFEOS/LIFEOS_StatusLine.sh",
+    "command": "$HOME/.claude/statusline.sh",
     "refreshInterval": 5
   },
   "enabledPlugins": {

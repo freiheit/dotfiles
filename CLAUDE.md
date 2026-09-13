@@ -47,7 +47,7 @@ Keep it that way. Config applies to some hosts only → guard at runtime, no tem
 
 ## Bash startup chain
 
-`~/.bash_profile` → `~/.bashrc` → loop sourcing `~/.bashrc.d/*` **in glob (alphabetical) order** → then, still inside `.bashrc`: linuxbrew shellenv, `EDITOR`/`VISUAL`, 1Password `SSH_AUTH_SOCK` block → finally `/usr/share/bazzite-cli/bling.sh`.
+`~/.bash_profile` → `~/.bashrc` → loop sourcing `~/.bashrc.d/*` **in glob (alphabetical) order** → then, still inside `.bashrc`: linuxbrew shellenv, `EDITOR`/`VISUAL` → finally `/usr/share/bazzite-cli/bling.sh`. The 1Password `SSH_AUTH_SOCK` block lives in `.bash_profile` (login shells); `dot_bashrc.d/zz-ssh-agent.sh` re-asserts it for non-login shells, because Fedora's keychain RPM ships `/etc/profile.d/keychain.sh` which overwrites `SSH_AUTH_SOCK` via `/etc/bashrc`.
 
 Two consequences that bite:
 

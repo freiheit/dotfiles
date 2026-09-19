@@ -45,6 +45,17 @@ if [[ -S $OP_AUTH_SOCK && -r $OP_AUTH_SOCK ]]; then ...
 
 Keep it that way. Config applies to some hosts only → guard at runtime, no templates. Corollary: "tool not installed, delete its config" usually wrong — may be installed on host you cannot see.
 
+## Puppet and chezmoi
+
+`openvox-control` (Puppet) decides per account who owns `$HOME`, via `dotfiles` in Hiera: `keys` (Puppet writes `~/.ssh/authorized_keys`, nothing else), `chezmoi` (Puppet runs `chezmoi init` once, forces the remote to https, runs `chezmoi update` when origin moves), `init` (Puppet runs `chezmoi init --apply` once, then hands off), `manual`. Current: root@monolith, root+eric@media1, root@freiheit-bots-el10 are `chezmoi`; eric@monolith is `init`; bots@freiheit-bots-el10 and root@decky are `keys`.
+
+Consequences here:
+
+- The ACCTS list in `bin/chezmoi-update` may only hold `chezmoi` or `init` accounts. Adding a `keys` account brings back two writers fighting over `authorized_keys`.
+- Server checkouts are https and cannot push. A `chezmoi re-add` there commits locally and fails at push, by design; only monolith writes this repo.
+- Puppet never writes `~/.ssh/authorized_keys` on a non-`keys` account. The 1Password `monolith rsa 4096` key lives in `private_dot_ssh/private_authorized_keys` for that reason.
+- `.ssh/authorized_keys` is one untemplated source, so a `chezmoi re-add` of it from any account rewrites every chezmoi account's file. Re-add it only from monolith.
+
 ## Bash startup chain
 
 `~/.bash_profile` → `~/.bashrc` → loop sourcing `~/.bashrc.d/*` **in glob (alphabetical) order** → then, still inside `.bashrc`: linuxbrew shellenv, `EDITOR`/`VISUAL` → finally `/usr/share/bazzite-cli/bling.sh`. The 1Password `SSH_AUTH_SOCK` block lives in `.bash_profile` (login shells); `dot_bashrc.d/zz-ssh-agent.sh` re-asserts it for non-login shells, because Fedora's keychain RPM ships `/etc/profile.d/keychain.sh` which overwrites `SSH_AUTH_SOCK` via `/etc/bashrc`.

@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# Only accounts openvox-control marks `dotfiles: chezmoi` or `init` may appear
+# here; a `keys` account has Puppet writing its authorized_keys and chezmoi
+# would undo that. Puppet also pulls the `chezmoi` ones daily; this loop is
+# the fast path.
 ACCTS=(
     root@media1.ogazenh.art
     eric@media1.ogazenh.art
     root@freiheit-bots-el10.freiheit.wtf
-    bots@freiheit-bots-el10.freiheit.wtf
     eric@atlantic.devin.com
 )
 

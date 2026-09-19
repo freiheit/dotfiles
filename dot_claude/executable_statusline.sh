@@ -2,6 +2,8 @@
 # Claude Code status line. Two rows everywhere:
 #   ~/path/to/cwd  branch <git state>          (truncated from the left to fit 100 columns)
 #   model effort  ctx gauge  one gauge per usage limit  [plugin badges]
+# A gauge whose percentage fits on solid cells carries it knocked out of its own fill, and a usage
+# window also carries when it resets: a duration under 12h ("1h15m"), local wall clock beyond ("W@5pm").
 # Plus, ONLY when cwd is inside a LifeOS context (SL_LIFEOS_DIRS below, or a `.lifeos`
 # marker file in cwd or any parent), three more rows:
 #   LifeOS │ 🇺🇸 CITY, ST  HH:MM  🌤 72°F │ SESSION [│ ascent]
@@ -36,19 +38,57 @@ uc=$cfg/usage-cache.json
 
 # One jq call, fields joined by US (0x1f) -- unlike tab, bash `read` keeps empty fields intact.
 # The separator is written as jq's "\u001f" escape so no raw control byte sits in this file for an
-# editor to silently drop. `limits` is a ";"-joined list of "label:pct"; both sources are
+# editor to silently drop. `limits` is a ";"-joined list of "label|pct|reset"; both sources are
 # enumerated rather than hardcoded, since windows come and go with the plan and reset
-# independently.
+# independently. The inner separator is "|", not ":", because a wall-clock reset string contains
+# colons ("Th@11:59pm").
+#
+# `resets_at` arrives in two shapes: an ISO 8601 string in the usage cache, Unix epoch seconds
+# on stdin (per the statusline docs). `epoch` normalises both, by slicing rather than regex so
+# the script does not depend on a jq built with Oniguruma.
 IFS=$'\x1f' read -r model effort pct dir session_id limits <<<"$(
     jq -r --slurpfile uc "$uc" '
+        def epoch:
+            if type == "number" then .
+            else . as $s
+              | ($s[0:19] + "Z" | fromdateiso8601)
+                - ($s[-6:] as $o
+                   | if ($o[0:1] == "+" or $o[0:1] == "-")
+                     then (if $o[0:1] == "-" then -1 else 1 end)
+                          * (($o[1:3] | tonumber) * 3600 + ($o[4:6] | tonumber) * 60)
+                     else 0 end)
+            end;
+        def dow: {"Sun":"Su","Mon":"M","Tue":"Tu","Wed":"W","Thu":"Th","Fri":"F","Sat":"Sa"};
+        # Under 12h a duration is what you want ("3m", "1h15m"); past that a wall-clock time is,
+        # and the day-of-week prefix appears only when the reset is not today -- so "Tu@5pm" on a
+        # Tuesday can only mean next Tuesday. Rounding to the nearest minute is what turns the
+        # weekly windows resetting at 00:00:01Z and 23:59:59Z into one clean local "5pm".
+        def reset:
+            if . == null then "" else
+            epoch as $t | ($t - now) as $raw
+            | if $raw <= 0 then "now"
+              elif $raw < 43200 then
+                (($raw / 60) | round) as $m
+                | if $m < 1 then "<1m"
+                  elif $m < 60 then "\($m)m"
+                  else "\(($m / 60) | floor)h\($m % 60)m" end
+              else
+                ((($t + 30) / 60 | floor) * 60) as $r
+                | ($r | strflocaltime("%M")) as $mm
+                | (($r | strflocaltime("%-I"))
+                   + (if $mm == "00" then "" else ":" + $mm end)
+                   + ($r | strflocaltime("%p") | ascii_downcase)) as $hm
+                | if ($r | strflocaltime("%Y%m%d")) == (now | strflocaltime("%Y%m%d"))
+                  then $hm else dow[$r | strflocaltime("%a")] + "@" + $hm end
+              end end;
         def gauges:
             ($uc[0].usage.limits // [] | map(select(.percent != null))
-                | map("\(.scope.model.display_name // .kind):\(.percent | floor)"))
+                | map("\(.scope.model.display_name // .kind)|\(.percent | floor)|\(.resets_at | reset)"))
             as $cached
             | if ($cached | length) > 0 then $cached
               else (.rate_limits // {} | to_entries
                   | map(select(.value.used_percentage != null))
-                  | map("\(.key):\(.value.used_percentage | floor)"))
+                  | map("\(.key)|\(.value.used_percentage | floor)|\(.value.resets_at | reset)"))
               end
             | join(";");
         [
@@ -99,38 +139,55 @@ ramp() { # prints "R G B" for PCT
 # status line does not control the environment Claude Code hands it.
 PARTIAL=('▏' '▎' '▍' '▌' '▋' '▊' '▉')
 
-# gauge LABEL PCT [WIDTH] [COLOR_PCT] -- label, bar and percent all in one ramp colour.
+# gauge LABEL PCT [RESET] [WIDTH] [COLOR_PCT] -- label, bar, percent and reset in one ramp colour.
 # COLOR_PCT lets a caller colour by a different scale than the fill (the STATE meters pass
 # 100-p so a high score reads cool, not red). The number is printed only from NUM_MIN% up
 # (default 50): below that the colour and fill say enough. Fill is clamped to WIDTH so an
 # over-100% window still renders, while the number stays truthful.
+#
+# The percentage is knocked *out of* the bar -- trough ink on the fill -- whenever its digits fit
+# on cells that are painted solid, so no digit ever straddles a partial glyph and the number costs
+# no columns. From 50% up on a 6-wide bar that always holds ("99%", and "137%" once the fill
+# clamps to all 6 cells). When it does not (NUM_MIN=0 on the 4-wide STATE meters) the number is
+# printed after the bar as before. RESET, if given, follows the bar only while the number shows.
 gauge() {
-    local label=$1 raw=${2//[!0-9]/} w=${3:-6} p e f r bar pad num=""
+    local label=$1 raw=${2//[!0-9]/} rst=$3 w=${4:-6} p e f r num="" cells=() i n
     raw=${raw:-0}
     p=$raw
     ((p > 100)) && p=100
-    ((raw >= ${NUM_MIN:-50})) && num=" ${raw}%"
+    ((raw >= ${NUM_MIN:-50})) && num="${raw}%"
     e=$((p * w * 8 / 100)) # fill measured in eighths of a cell
     f=$((e / 8))
     r=$((e % 8))
-    printf -v bar '%*s' "$f" ''
-    bar=${bar// /█}
-    if ((r)); then
-        bar+=${PARTIAL[r - 1]}
-        ((f++))
-    fi
-    printf -v pad '%*s' $((w - f)) ''
     # The whole bar sits on a trough background, and everything unfilled is a plain space on it.
     # A partial glyph paints only the left fraction of its cell, so its remainder has to match the
     # empty cells exactly -- shading them (with U+2591) instead makes that remainder a visibly
     # different colour from its neighbours.
-    local cr cg cb
-    read -r cr cg cb <<<"$(ramp "${4:-$p}")"
-    printf '\e[38;2;%d;%d;%dm%s\e[48;2;%d;%d;%dm%s%s\e[0m' \
-        "$cr" "$cg" "$cb" "${label:+$label }" \
-        $((cr * TROUGH_PCT / 100)) $((cg * TROUGH_PCT / 100)) $((cb * TROUGH_PCT / 100)) \
-        "$bar" "$pad"
-    [ -n "$num" ] && printf '\e[38;2;%d;%d;%dm%s\e[0m' "$cr" "$cg" "$cb" "$num"
+    for ((i = 0; i < w; i++)); do
+        if ((i < f)); then
+            cells+=('█')
+        elif ((i == f && r)); then
+            cells+=("${PARTIAL[r - 1]}")
+        else
+            cells+=(' ')
+        fi
+    done
+    local cr cg cb tr tg tb
+    read -r cr cg cb <<<"$(ramp "${5:-$p}")"
+    tr=$((cr * TROUGH_PCT / 100)) tg=$((cg * TROUGH_PCT / 100)) tb=$((cb * TROUGH_PCT / 100))
+    n=${#num}
+    ((n > f)) && n=0 # digits would land on a partial or empty cell: print after the bar instead
+    printf '\e[38;2;%d;%d;%dm%s' "$cr" "$cg" "$cb" "${label:+$label }"
+    # Knockout: trough ink on the fill, so the digits read as cut out of the bar itself.
+    ((n)) && printf '\e[48;2;%d;%d;%dm\e[38;2;%d;%d;%dm%s' \
+        "$cr" "$cg" "$cb" "$tr" "$tg" "$tb" "$num"
+    printf '\e[48;2;%d;%d;%dm\e[38;2;%d;%d;%dm' "$tr" "$tg" "$tb" "$cr" "$cg" "$cb"
+    for ((i = n; i < w; i++)); do printf '%s' "${cells[i]}"; done
+    printf '\e[0m'
+    if [ -n "$num" ]; then
+        ((n)) || printf ' \e[38;2;%d;%d;%dm%s\e[0m' "$cr" "$cg" "$cb" "$num"
+        [ -n "$rst" ] && printf ' \e[38;2;%d;%d;%dm%s\e[0m' "$cr" "$cg" "$cb" "$rst"
+    fi
     return 0
 }
 
@@ -233,7 +290,7 @@ line2+="  $(gauge ctx "$pct")"
 if [ -n "$limits" ]; then
     IFS=';' read -ra windows <<<"$limits"
     for wnd in "${windows[@]}"; do
-        key=${wnd%%:*}
+        IFS='|' read -r key wpct wrst <<<"$wnd"
         case $key in
             session | five_hour) lbl=5h ;;
             weekly_all | seven_day) lbl=7d ;;
@@ -245,7 +302,7 @@ if [ -n "$limits" ]; then
                 lbl=${lbl:0:1}
                 ;;
         esac
-        line2+="  $(gauge "$lbl" "${wnd##*:}")"
+        line2+="  $(gauge "$lbl" "$wpct" "$wrst")"
     done
 fi
 printf '%s\n%s%s\n' "$line1" "$line2" "$badges"
@@ -442,7 +499,7 @@ if [ -f "$state_json" ]; then
         v=${vals[$i]:-N/A} v=${v%%.*}
         case $v in
             '' | *[!0-9]*) srow+="  $(c 240 "${labels[$i]} —")" ;;
-            *) srow+="  $(NUM_MIN=0 gauge "${labels[$i]}" "$v" 4 $((100 - v)))" ;;
+            *) srow+="  $(NUM_MIN=0 gauge "${labels[$i]}" "$v" '' 4 $((100 - v)))" ;;
         esac
     done
     printf '%s\n' "$srow"

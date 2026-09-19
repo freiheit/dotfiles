@@ -46,7 +46,7 @@ export SYSTEMD_PAGER=
 
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
-    for rc in ~/.bashrc.d/*; do
+    for rc in ~/.bashrc.d/*.sh; do # *.sh only: editor backups (prompt.sh~) got sourced too
         if [ -f "$rc" ]; then
             . "$rc"
         fi

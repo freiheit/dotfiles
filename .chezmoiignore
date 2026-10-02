@@ -14,6 +14,12 @@
 
 renovate.json
 
+# Claude Code secrets and machine state; the app owns these, never managed.
+.claude/.env
+.claude/.credentials.json
+.claude/settings.local.json
+.claude.json
+
 {{ $ov := includeTemplate "openvox" . | fromJson -}}
 {{ $workstation := and (eq $ov.role "workstation") (ne .chezmoi.username "root") -}}
 {{ if not $workstation -}}
@@ -26,4 +32,17 @@ renovate.json
 # deckdex: same, plus Steam present. Ignoring the external skips the download.
 .local/bin/deckdex
 .chezmoiscripts/deckdex-cron.sh
+{{ end -}}
+
+{{ $claude := and (lookPath "claude") (ne .chezmoi.username "root") -}}
+{{ $obsidian := or (stat "/var/lib/flatpak/app/md.obsidian.Obsidian") (stat (joinPath .chezmoi.homeDir ".local/share/flatpak/app/md.obsidian.Obsidian")) -}}
+{{ if not $claude -}}
+# Claude Code config: hosts with the claude CLI, non-root only.
+.claude
+.chezmoiscripts/lifeos-bootstrap.sh
+{{ end -}}
+{{ if not (and $claude $obsidian) -}}
+# agentcairn: Claude Code plus Obsidian, which is how the vault gets read.
+.agentcairn
+.chezmoiscripts/agentcairn.sh
 {{ end -}}

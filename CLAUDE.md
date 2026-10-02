@@ -56,6 +56,10 @@ Branch on role or profile, never on hostname. Nothing to re-init: the file is re
 
 Gate a feature in one place, in `.chezmoiignore`: an ignored external is not downloaded, and an ignored script is not run (match it by target name, `.chezmoiscripts/deckdex-cron.sh` for `.chezmoiscripts/run_onchange_deckdex-cron.sh`). The deckdex block there is the pattern; the external and the script themselves stay unconditional.
 
+## Claude Code and agentcairn
+
+Managed under `~/.claude`: `settings.json` (plugins ride in its `enabledPlugins` + `extraKnownMarketplaces`), `CLAUDE.md`, `statusline.sh`, the `.i-have-adhd-always` flag. Deliberately not managed: `.env` and `.credentials.json` (secrets), `settings.local.json` and `~/.claude.json` (machine state, MCP servers with tokens), and the LifeOS tree itself (`LIFEOS/`, `skills/`, `hooks/`, `agents/`, about 2 GB) which `/LifeOS setup` and `/LifeOS update` own; `.chezmoiscripts/run_onchange_lifeos-bootstrap.sh` only drops the skill on a host that has none. `~/.config/LIFEOS/USER` is private identity data and this repo is public. Claude Desktop runs from the `ubuntu` distrobox; its config is app-owned, except the agentcairn MCP entry, which `cairn install claude-desktop` writes from `run_onchange_agentcairn.sh`. agentcairn's cron line is owned by `cairn schedule install`, not by this repo.
+
 ## Puppet and chezmoi
 
 `openvox-control` (Puppet) decides per account who owns `$HOME`, via `dotfiles` in Hiera: `keys` (Puppet writes `~/.ssh/authorized_keys`, nothing else), `chezmoi` (Puppet runs `chezmoi init` once, forces the remote to https, runs `chezmoi update` when origin moves), `init` (Puppet runs `chezmoi init --apply` once, then hands off), `manual`. Current: root@monolith, root+eric@media1, root@freiheit-bots-el10 are `chezmoi`; eric@monolith is `init`; bots@freiheit-bots-el10 and root@decky are `keys`.

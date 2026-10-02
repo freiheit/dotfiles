@@ -15,9 +15,15 @@
 renovate.json
 
 {{ $ov := includeTemplate "openvox" . | fromJson -}}
-{{ if not (and (eq $ov.role "workstation") (lookPath "steam") (ne .chezmoi.username "root")) -}}
-# deckdex: Puppet workstations with Steam, non-root only. Ignoring the external
-# skips the download; ignoring the script by its target name skips the run.
+{{ $workstation := and (eq $ov.role "workstation") (ne .chezmoi.username "root") -}}
+{{ if not $workstation -}}
+# Obsidian: Puppet workstations, non-root only. Ignoring the directory skips
+# the flatpak override; ignoring the script by its target name skips the run.
+.local/share/flatpak
+.chezmoiscripts/obsidian-install.sh
+{{ end -}}
+{{ if not (and $workstation (lookPath "steam")) -}}
+# deckdex: same, plus Steam present. Ignoring the external skips the download.
 .local/bin/deckdex
 .chezmoiscripts/deckdex-cron.sh
 {{ end -}}

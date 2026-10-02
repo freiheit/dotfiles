@@ -20,3 +20,10 @@
     url = "https://github.com/akinomyoga/ble.sh/releases/download/nightly/ble-nightly.tar.xz"
     stripComponents = 1
     refreshPeriod = "168h"
+
+# Latest release binary. .chezmoiignore gates which hosts get it; ignored = not downloaded.
+[".local/bin/deckdex"]
+    type = "file"
+    url = "https://github.com/nobodys-tools/DeckDex/releases/latest/download/deckdex-{{ .chezmoi.os }}-{{ .chezmoi.arch }}"
+    executable = true
+    refreshPeriod = "168h"

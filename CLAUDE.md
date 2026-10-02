@@ -54,6 +54,8 @@ The one templating input is Puppet's node marker. `openvox-control` writes `/etc
 
 Branch on role or profile, never on hostname. Nothing to re-init: the file is read on every apply, not baked into the config at `chezmoi init`. Check: `chezmoi execute-template '{{ includeTemplate "openvox" . }}'`.
 
+Gate a feature in one place, in `.chezmoiignore`: an ignored external is not downloaded, and an ignored script is not run (match it by target name, `.chezmoiscripts/deckdex-cron.sh` for `.chezmoiscripts/run_onchange_deckdex-cron.sh`). The deckdex block there is the pattern; the external and the script themselves stay unconditional.
+
 ## Puppet and chezmoi
 
 `openvox-control` (Puppet) decides per account who owns `$HOME`, via `dotfiles` in Hiera: `keys` (Puppet writes `~/.ssh/authorized_keys`, nothing else), `chezmoi` (Puppet runs `chezmoi init` once, forces the remote to https, runs `chezmoi update` when origin moves), `init` (Puppet runs `chezmoi init --apply` once, then hands off), `manual`. Current: root@monolith, root+eric@media1, root@freiheit-bots-el10 are `chezmoi`; eric@monolith is `init`; bots@freiheit-bots-el10 and root@decky are `keys`.

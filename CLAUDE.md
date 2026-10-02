@@ -35,7 +35,7 @@ bin/update-all          # OS/package updates (topgrade, distrobox, etckeeper) �
 
 Also used automatically in distrobox containers, currently mix of Ubuntu and Fedora variants.
 
-**No** OS or hostname templating anywhere — `.chezmoi.toml.tmpl` has no template actions, no `.tmpl` file branches on host. Divergence handled entirely by runtime guards inside shell files:
+**No** OS or hostname templating anywhere — `.chezmoi.toml.tmpl` has no template actions, no `.tmpl` file branches on hostname or OS. Divergence handled by runtime guards inside shell files:
 
 ```bash
 if which fzf &>/dev/null; then ...
@@ -44,6 +44,15 @@ if [[ -S $OP_AUTH_SOCK && -r $OP_AUTH_SOCK ]]; then ...
 ```
 
 Keep it that way. Config applies to some hosts only → guard at runtime, no templates. Corollary: "tool not installed, delete its config" usually wrong — may be installed on host you cannot see.
+
+The one templating input is Puppet's node marker. `openvox-control` writes `/etc/freiheit/openvox.json` (`{"role": ..., "profiles": [...]}`) on every node it manages; `.chezmoitemplates/openvox` reads it at apply time and yields `role ""`, `profiles []` where the file is absent (distrobox, decky, anything Puppet does not touch). Use it only where a runtime guard cannot: `.chezmoiignore`, `.chezmoiremove`, `.chezmoiexternal.toml`, whether a file exists at all.
+
+```
+{{ $ov := includeTemplate "openvox" . | fromJson -}}
+{{ if has "monolith_config" $ov.profiles }}...{{ end }}
+```
+
+Branch on role or profile, never on hostname. Nothing to re-init: the file is read on every apply, not baked into the config at `chezmoi init`. Check: `chezmoi execute-template '{{ includeTemplate "openvox" . }}'`.
 
 ## Puppet and chezmoi
 

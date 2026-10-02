@@ -1,0 +1,13 @@
+{{- /* Puppet's node marker, written by openvox-control (profile::marker):
+       {"role": "workstation", "profiles": ["base", "btrfs", ...]}
+     Absent on hosts Puppet does not manage (distrobox, decky); the defaults
+     below keep every lookup safe there. Read fresh on every apply.
+
+     Use:  {{ $ov := includeTemplate "openvox" . | fromJson -}}
+           {{ if has "monolith_config" $ov.profiles }}...{{ end }}
+     Check: chezmoi execute-template '{{ includeTemplate "openvox" . }}' */ -}}
+{{- $ov := dict "role" "" "profiles" list -}}
+{{- if stat "/etc/freiheit/openvox.json" -}}
+{{-   $ov = merge (include "/etc/freiheit/openvox.json" | fromJson) $ov -}}
+{{- end -}}
+{{- $ov | toJson -}}

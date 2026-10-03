@@ -1,0 +1,6 @@
+#!/bin/sh
+# Creates every box in distrobox.ini that does not exist yet and exports its
+# apps. Existing boxes are left alone on purpose: --replace would wipe them.
+# distrobox.ini hash: {{ include "dot_config/distrobox/distrobox.ini.tmpl" | sha256sum }}
+set -eu
+distrobox assemble create --file "$HOME/.config/distrobox/distrobox.ini"

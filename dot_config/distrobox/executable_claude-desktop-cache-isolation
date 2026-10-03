@@ -1,0 +1,17 @@
+#!/bin/sh
+# Installed as /usr/local/bin/claude-desktop inside the "ubuntu" distrobox by
+# the init_hooks in distrobox.ini. /usr/local/bin precedes /usr/bin in the
+# distrobox PATH, so every launch path picks this up: autostart, app menu,
+# desktop actions, and the command line.
+#
+# Why: Claude Desktop ships its own fontconfig inside its Electron bundle and
+# writes cache files under the shared $HOME. The host and this container both
+# have a /usr/share/fonts with different contents, and fontconfig names cache
+# files by a hash of the directory path -- so the container's entries clobber
+# the host's. Host Electron apps (vesktop, Discord) then read font paths that
+# do not exist for them, find no usable fonts, and abort inside Skia with
+# "SkFontMgr_FontConfigInterface.cpp:163 Not implemented".
+#
+# A /etc/fonts/conf.d drop-in does NOT fix this: the bundled fontconfig ignores
+# it. Only relocating XDG_CACHE_HOME works.
+exec env XDG_CACHE_HOME="$HOME/.cache/distrobox-ubuntu" /usr/bin/claude-desktop "$@"

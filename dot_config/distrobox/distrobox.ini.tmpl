@@ -5,6 +5,12 @@
 [ubuntu]
 image=quay.io/toolbx/ubuntu-toolbox:latest
 nvidia=true
+# File logging, not journald: distrobox-init traces every step on every start,
+# the first-start burst (apt output + ~190 nvidia bind mounts) trips journald's
+# rate limit, and the dropped lines include the container_setup_done marker
+# that distrobox-enter waits for. Seen 2026-10-02: "Suppressed 4483 messages
+# from user@1000.service", assemble hung until killed.
+additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
 # Claude Desktop apt repo. The key is Anthropic's release signing key
 # (31DD DE24 DDFA B679 F42D 7BD2 BAA9 29FF 1A7E CACE), shipped alongside this
 # file rather than fetched, so pre-init needs no curl; the same key is at
@@ -12,5 +18,7 @@ nvidia=true
 pre_init_hooks=install -Dm0644 {{ .chezmoi.homeDir }}/.config/distrobox/claude-desktop-archive-keyring.asc /usr/share/keyrings/claude-desktop-archive-keyring.asc
 pre_init_hooks=echo 'deb [signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main' > /etc/apt/sources.list.d/claude-desktop.list
 additional_packages=claude-desktop
-exported_apps=com.anthropic.Claude
+# distrobox-export matches the Exec= or Name= line, not the desktop-file id;
+# the host launcher still comes out as ubuntu-com.anthropic.Claude.desktop.
+exported_apps=claude-desktop
 init_hooks=install -Dm0755 {{ .chezmoi.homeDir }}/.config/distrobox/claude-desktop-cache-isolation /usr/local/bin/claude-desktop

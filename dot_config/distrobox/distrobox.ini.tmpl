@@ -18,6 +18,9 @@ additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
 pre_init_hooks=install -Dm0644 {{ .chezmoi.homeDir }}/.config/distrobox/claude-desktop-archive-keyring.asc /usr/share/keyrings/claude-desktop-archive-keyring.asc
 pre_init_hooks=echo 'deb [signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main' > /etc/apt/sources.list.d/claude-desktop.list
 additional_packages=claude-desktop
+# Tools the box is used for beyond Claude Desktop (picked 2026-10-02 from what
+# had been installed by hand; npm also serves the desktop's `npx mcp-remote`).
+additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd pre-commit joe
 # distrobox-export matches the Exec= or Name= line, not the desktop-file id;
 # the host launcher still comes out as ubuntu-com.anthropic.Claude.desktop.
 exported_apps=claude-desktop

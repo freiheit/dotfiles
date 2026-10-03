@@ -23,8 +23,9 @@ renovate.json
 {{ $ov := includeTemplate "openvox" . | fromJson -}}
 {{ $workstation := and (eq $ov.role "workstation") (ne .chezmoi.username "root") -}}
 {{ if not $workstation -}}
-# Obsidian: Puppet workstations, non-root only. Ignoring the directory skips
-# the flatpak override; ignoring the script by its target name skips the run.
+# Flatpak overrides (Obsidian, browsers, Discord, OpenDeck, Boatswain, Signal)
+# and the Obsidian fallback install: Puppet workstations, non-root only.
+# Ignoring the directory skips every override; the script by its target name.
 .local/share/flatpak
 .chezmoiscripts/obsidian-install.sh
 {{ end -}}

@@ -1,0 +1,4 @@
+[Context]
+sockets=pulseaudio
+devices=input;dri
+features=multiarch

@@ -1,0 +1,3 @@
+[Session Bus Policy]
+org.freedesktop.Flatpak=talk
+org.kde.plasma.browser.integration=talk

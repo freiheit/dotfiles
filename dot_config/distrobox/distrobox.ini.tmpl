@@ -3,7 +3,11 @@
 # a change here reaches an existing box only through
 # `distrobox assemble create --replace`, which rebuilds it from scratch.
 [ubuntu]
-image=quay.io/toolbx/ubuntu-toolbox:latest
+# Pinned release, not :latest. :latest meant 24.04 on 2026-10-02 while the box
+# it replaced had been release-upgraded to 26.04 by hand; 26.04 is also the
+# first Ubuntu with a `ghostty` package (xterm-ghostty terminfo for sudo and
+# other env-reset paths; distrobox-enter itself maps the host's terminfo in).
+image=quay.io/toolbx/ubuntu-toolbox:26.04
 nvidia=true
 # File logging, not journald: distrobox-init traces every step on every start,
 # the first-start burst (apt output + ~190 nvidia bind mounts) trips journald's
@@ -20,7 +24,7 @@ pre_init_hooks=echo 'deb [signed-by=/usr/share/keyrings/claude-desktop-archive-k
 additional_packages=claude-desktop
 # Tools the box is used for beyond Claude Desktop (picked 2026-10-02 from what
 # had been installed by hand; npm also serves the desktop's `npx mcp-remote`).
-additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd pre-commit joe
+additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd pre-commit joe ghostty
 # distrobox-export matches the Exec= or Name= line, not the desktop-file id;
 # the host launcher still comes out as ubuntu-com.anthropic.Claude.desktop.
 exported_apps=claude-desktop

@@ -1,3 +1,6 @@
+{{- /* Every box gets these; ghostty is here for its xterm-ghostty terminfo.
+     Hooks are one-word paths into box-hooks: no quoting survives the ini. */ -}}
+{{- $common := "fish ghostty pre-commit git-lfs joe etckeeper" -}}
 # Assembled by .chezmoiscripts/run_onchange_after_distrobox.sh.tmpl, which only
 # creates boxes that do not exist yet. Hooks and packages bake in at creation:
 # a change here reaches an existing box only through
@@ -15,6 +18,12 @@ nvidia=true
 # that distrobox-enter waits for. Seen 2026-10-02: "Suppressed 4483 messages
 # from user@1000.service", assemble hung until killed.
 additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
+# Own fontconfig cache per box. Host and box share $HOME but have different
+# /usr/share/fonts, and fontconfig names cache files by a hash of the directory
+# path, so a shared cache makes host Electron apps (vesktop, Discord) read font
+# paths that only exist in the box. The assemble script creates the host side:
+# podman refuses a bind mount whose source is missing.
+volume={{ .chezmoi.homeDir }}/.cache/distrobox-ubuntu/fontconfig:{{ .chezmoi.homeDir }}/.cache/fontconfig
 # Claude Desktop apt repo. The key is Anthropic's release signing key
 # (31DD DE24 DDFA B679 F42D 7BD2 BAA9 29FF 1A7E CACE), shipped alongside this
 # file rather than fetched, so pre-init needs no curl; the same key is at
@@ -22,9 +31,11 @@ additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
 pre_init_hooks=install -Dm0644 {{ .chezmoi.homeDir }}/.config/distrobox/claude-desktop-archive-keyring.asc /usr/share/keyrings/claude-desktop-archive-keyring.asc
 pre_init_hooks=echo 'deb [signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main' > /etc/apt/sources.list.d/claude-desktop.list
 additional_packages=claude-desktop
+additional_packages={{ $common }}
+init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks init
 # Tools the box is used for beyond Claude Desktop (picked 2026-10-02 from what
 # had been installed by hand; npm also serves the desktop's `npx mcp-remote`).
-additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd pre-commit joe ghostty
+additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd
 # distrobox-export matches the Exec= or Name= line, not the desktop-file id;
 # the host launcher still comes out as ubuntu-com.anthropic.Claude.desktop.
 exported_apps=claude-desktop
@@ -38,7 +49,10 @@ image=quay.io/fedora/fedora:latest
 nvidia=true
 # Same journald rate-limit workaround as ubuntu above.
 additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
-# Fastly ships no dnf repo, only versioned rpms on GitHub releases; the API
-# call picks the current one. The rpm installs to /usr/local/bin.
-init_hooks=dnf install -y "$(curl -fsSL https://api.github.com/repos/fastly/cli/releases/latest | grep -o 'https://[^"]*_linux_amd64\.rpm')"
+# Same per-box fontconfig cache as ubuntu above.
+volume={{ .chezmoi.homeDir }}/.cache/distrobox-fedora/fontconfig:{{ .chezmoi.homeDir }}/.cache/fontconfig
+# Terra repo (ghostty) in pre, Fastly CLI in init; see box-hooks for why.
+pre_init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks pre
+init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks init
+additional_packages={{ $common }} uv chezmoi toot
 exported_bins=/usr/local/bin/fastly

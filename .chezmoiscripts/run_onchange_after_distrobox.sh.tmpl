@@ -3,4 +3,9 @@
 # apps. Existing boxes are left alone on purpose: --replace would wipe them.
 # distrobox.ini hash: {{ include "dot_config/distrobox/distrobox.ini.tmpl" | sha256sum }}
 set -eu
-distrobox assemble create --file "$HOME/.config/distrobox/distrobox.ini"
+ini="$HOME/.config/distrobox/distrobox.ini"
+# Host side of each box's fontconfig volume; podman will not create it.
+sed -n 's/^\[\(.*\)\]$/\1/p' "$ini" | while read -r box; do
+	mkdir -p "$HOME/.cache/distrobox-$box/fontconfig"
+done
+distrobox assemble create --file "$ini"

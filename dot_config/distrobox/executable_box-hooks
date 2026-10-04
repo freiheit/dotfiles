@@ -1,0 +1,31 @@
+#!/bin/sh
+# Runs inside every box in distrobox.ini: "pre" before distrobox-init installs
+# packages, "init" after. The shell lives here and not in the ini because
+# assemble, create and init each eval the hook string once more, so a quote or
+# a $ written in the ini has to survive three rounds of expansion (seen
+# 2026-10-03: a $releasever expanded to nothing on the host, a mixed-quote
+# pipeline died with "unexpected EOF while looking for matching `''").
+# Branches on the package manager, not the box name: there is one box per
+# family so far.
+set -eu
+case "$1" in
+pre)
+	if command -v dnf > /dev/null; then
+		# Fedora does not package ghostty; Terra does. Terra's documented line.
+		dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+	fi
+	;;
+init)
+	if command -v dnf > /dev/null; then
+		# Fastly ships no dnf repo, only versioned rpms on GitHub releases. The
+		# rpm installs to /usr/local/bin.
+		dnf install -y "$(curl -fsSL https://api.github.com/repos/fastly/cli/releases/latest | grep -o 'https://[^"]*_linux_amd64\.rpm')"
+	fi
+	if command -v apt-get > /dev/null; then
+		# uv and chezmoi are not in Ubuntu's archive; their upstream installers
+		# go to /usr/local/bin, not the shared $HOME/.local/bin.
+		sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+		curl -LsSf https://astral.sh/uv/install.sh | UV_UNMANAGED_INSTALL=/usr/local/bin sh
+	fi
+	;;
+esac

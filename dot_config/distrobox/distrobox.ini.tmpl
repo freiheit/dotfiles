@@ -46,6 +46,9 @@ init_hooks=install -Dm0755 {{ .chezmoi.homeDir }}/.config/distrobox/claude-deskt
 # hand-grown 16.6 GB localhost/fedora-toolbox build. distrobox-init installs
 # its own basics on first start, so the toolbox image buys nothing here.
 image=quay.io/fedora/fedora:latest
+# Floating tag: pull at create, or a rebuild reuses whatever stale image podman
+# already has.
+pull=true
 nvidia=true
 # Same journald rate-limit workaround as ubuntu above.
 additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
@@ -56,3 +59,15 @@ pre_init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks pre
 init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks init
 additional_packages={{ $common }} uv chezmoi toot
 exported_bins=/usr/local/bin/fastly
+
+[rawhide]
+# Fedora rawhide scratch box: same as fedora above, minus the Fastly export.
+# Terra publishes terrarawhide, so box-hooks pre works here too.
+image=quay.io/fedora/fedora:rawhide
+pull=true
+nvidia=true
+additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
+volume={{ .chezmoi.homeDir }}/.cache/distrobox-rawhide/fontconfig:{{ .chezmoi.homeDir }}/.cache/fontconfig
+pre_init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks pre
+init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks init
+additional_packages={{ $common }} uv chezmoi toot

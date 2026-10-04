@@ -5,9 +5,10 @@
 # a $ written in the ini has to survive three rounds of expansion (seen
 # 2026-10-03: a $releasever expanded to nothing on the host, a mixed-quote
 # pipeline died with "unexpected EOF while looking for matching `''").
-# Branches on the package manager, not the box name: one box per family so
-# far. Only the fedora box needs hooks today; ubuntu's are plain apt installs,
-# and tools missing from its archive (uv, chezmoi) are skipped, not fetched.
+# Branches on the package manager, not the box name: every dnf box (fedora,
+# rawhide) gets Terra and the Fastly rpm, and only fedora exports fastly.
+# ubuntu needs no hooks; tools missing from its archive (uv, chezmoi) are
+# skipped, not fetched.
 set -eu
 case "$1" in
 pre)

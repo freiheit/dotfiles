@@ -29,3 +29,16 @@ additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd pre-commit joe ghos
 # the host launcher still comes out as ubuntu-com.anthropic.Claude.desktop.
 exported_apps=claude-desktop
 init_hooks=install -Dm0755 {{ .chezmoi.homeDir }}/.config/distrobox/claude-desktop-cache-isolation /usr/local/bin/claude-desktop
+
+[fedora]
+# Plain Fedora, not a toolbox image: the box this replaced (2026-10-03) was a
+# hand-grown 16.6 GB localhost/fedora-toolbox build. distrobox-init installs
+# its own basics on first start, so the toolbox image buys nothing here.
+image=quay.io/fedora/fedora:latest
+nvidia=true
+# Same journald rate-limit workaround as ubuntu above.
+additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
+# Fastly ships no dnf repo, only versioned rpms on GitHub releases; the API
+# call picks the current one. The rpm installs to /usr/local/bin.
+init_hooks=dnf install -y "$(curl -fsSL https://api.github.com/repos/fastly/cli/releases/latest | grep -o 'https://[^"]*_linux_amd64\.rpm')"
+exported_bins=/usr/local/bin/fastly

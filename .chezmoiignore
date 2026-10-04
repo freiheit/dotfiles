@@ -30,8 +30,8 @@ renovate.json
 .chezmoiscripts/obsidian-install.sh
 {{ end -}}
 {{ if not (and $workstation (lookPath "distrobox")) -}}
-# Claude Desktop lives in the ubuntu distrobox; the manifest, its hook files
-# and the assemble script go together.
+# Workstation distroboxes (Claude Desktop in ubuntu, Fastly CLI in fedora); the
+# manifest, its hook files and the assemble script go together.
 .config/distrobox
 .chezmoiscripts/distrobox.sh
 {{ end -}}

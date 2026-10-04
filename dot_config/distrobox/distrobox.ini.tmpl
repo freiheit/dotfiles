@@ -31,8 +31,8 @@ volume={{ .chezmoi.homeDir }}/.cache/distrobox-ubuntu/fontconfig:{{ .chezmoi.hom
 pre_init_hooks=install -Dm0644 {{ .chezmoi.homeDir }}/.config/distrobox/claude-desktop-archive-keyring.asc /usr/share/keyrings/claude-desktop-archive-keyring.asc
 pre_init_hooks=echo 'deb [signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main' > /etc/apt/sources.list.d/claude-desktop.list
 additional_packages=claude-desktop
+# uv and chezmoi are not in Ubuntu's archive and are not essential: skipped.
 additional_packages={{ $common }}
-init_hooks={{ .chezmoi.homeDir }}/.config/distrobox/box-hooks init
 # Tools the box is used for beyond Claude Desktop (picked 2026-10-02 from what
 # had been installed by hand; npm also serves the desktop's `npx mcp-remote`).
 additional_packages=gh npm jq qemu-system-x86 ovmf virtiofsd

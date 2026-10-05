@@ -22,10 +22,23 @@ renovate.json
 
 {{ $ov := includeTemplate "openvox" . | fromJson -}}
 {{ $workstation := and (eq $ov.role "workstation") (ne .chezmoi.username "root") -}}
+{{ $gui := and (or (eq $ov.role "workstation") (eq $ov.role "handheld")) (ne .chezmoi.username "root") -}}
+{{ if not $gui -}}
+# GUI config shared by the desktop and the handheld: 1Password (desktop prefs,
+# SSH agent, its generated ssh include) and ghostty. No openvox.json means an
+# empty role, so root, servers and distroboxes stay CLI-only by default.
+.config/1Password
+.config/ghostty/config
+.ssh/1Password
+{{ end -}}
 {{ if not $workstation -}}
-# Flatpak overrides (Obsidian, browsers, Discord, OpenDeck, Boatswain, Signal)
-# and the Obsidian fallback install: Puppet workstations, non-root only.
-# Ignoring the directory skips every override; the script by its target name.
+# Desktop-only GUI config, kept off the handheld to keep it light: VS Code (rpm
+# and flatpak), Fastmail and Todoist flatpak prefs, the flatpak overrides
+# (Obsidian, browsers, Discord, OpenDeck, Boatswain, Signal) and the Obsidian
+# fallback install. Ignoring a directory skips everything in it; the script by
+# its target name.
+.config/Code
+.var/app
 .local/share/flatpak
 .chezmoiscripts/obsidian-install.sh
 {{ end -}}

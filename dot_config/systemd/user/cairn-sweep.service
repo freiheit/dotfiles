@@ -1,7 +1,9 @@
 # agentcairn capture sweep, memory-capped. Started by cairn-sweep.timer and by
 # the agentcairn plugin's SessionEnd/PreCompact hook (patched by
 # run_after_agentcairn-hook.sh). One instance at a time: a start while it runs
-# is a no-op. Uncapped sweeps reached 21G on monolith (2026-10-06).
+# is a no-op. Uncapped sweeps reached 21G on monolith (2026-10-06). fastembed
+# embeds 256 texts per batch; at bge-base's 512 tokens the attention step alone
+# is ~3.2G, so 3G throttled the first full reindex to a crawl.
 [Unit]
 Description=agentcairn capture sweep (memory-capped)
 Documentation=https://github.com/ccf/agentcairn
@@ -12,7 +14,7 @@ ExecStart=%h/.local/bin/cairn sweep --vault %h/Documents/freibrain
 Nice=19
 IOSchedulingClass=idle
 CPUWeight=20
-MemoryHigh=3G
-MemoryMax=4G
-MemorySwapMax=512M
-TimeoutStartSec=30min
+MemoryHigh=6G
+MemoryMax=8G
+MemorySwapMax=1G
+TimeoutStartSec=1h

@@ -1,0 +1,11 @@
+# Backstop for the session hooks; replaces cairn's own 2-hourly cron line.
+[Unit]
+Description=agentcairn capture sweep backstop
+
+[Timer]
+OnBootSec=1h
+OnUnitInactiveSec=2h
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target

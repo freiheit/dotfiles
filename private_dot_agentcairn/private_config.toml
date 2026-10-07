@@ -11,7 +11,10 @@ vault = "~/Documents/freibrain"
 # embedder = "fastembed"
 
 # Embedding model name.
-# embed_model = "nomic-ai/nomic-embed-text-v1.5"
+# nomic-embed-text-v1.5 (the default) reads up to 8192 tokens per text and
+# fastembed pads a 256-text batch to its longest member: one long transcript
+# turn took a sweep to 21G on monolith (2026-10-06). bge-base caps at 512.
+embed_model = "BAAI/bge-base-en-v1.5"
 
 # Cross-encoder reranker on recall (biggest quality lever).
 # rerank = true

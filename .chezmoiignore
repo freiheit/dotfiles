@@ -65,4 +65,8 @@ renovate.json
 # agentcairn: Claude Code plus Obsidian, which is how the vault gets read.
 .agentcairn
 .chezmoiscripts/agentcairn.sh
+.chezmoiscripts/agentcairn-hook.sh
+.config/systemd/user/cairn-sweep.service
+.config/systemd/user/cairn-sweep.timer
+.config/systemd/user/timers.target.wants/cairn-sweep.timer
 {{ end -}}

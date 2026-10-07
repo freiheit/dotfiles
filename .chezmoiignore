@@ -64,6 +64,7 @@ renovate.json
 {{ if not (and $claude $obsidian) -}}
 # agentcairn: Claude Code plus Obsidian, which is how the vault gets read.
 .agentcairn
+agentcairn
 .chezmoiscripts/agentcairn.sh
 .chezmoiscripts/agentcairn-hook.sh
 .config/systemd/user/cairn-sweep.service

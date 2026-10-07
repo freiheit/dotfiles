@@ -2,7 +2,11 @@
 # Uncomment a line to set it. Docs: https://github.com/ccf/agentcairn
 
 # Vault directory (the source of truth).
-vault = "~/Documents/freibrain"
+# ~/agentcairn is an absolute symlink to the real (/var/home) path of
+# ~/Documents/freibrain. cairn keys its index on the resolved path, and the
+# Claude Desktop distrobox sees $HOME as /home/eric, so a ~/Documents path
+# split the index in two (2026-10-06). Every consumer goes through the link.
+vault = "~/agentcairn"
 
 # DuckDB index path (rebuildable cache).
 # index = "~/.cache/agentcairn/indexes/<vault_key>.duckdb"

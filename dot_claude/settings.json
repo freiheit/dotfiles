@@ -14,7 +14,6 @@
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "3"
   },
   "includeGitInstructions": false,
-  "model": "fable[1m]",
   "hooks": {
     "PreToolUse": [
       {

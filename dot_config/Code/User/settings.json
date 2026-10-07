@@ -35,5 +35,7 @@
     "workbench.iconTheme": "gruvbox-icon-theme",
     "chat.agent.enabled": false,
     "update.titleBar": false,
-    "update.mode": "manual"
+    "update.mode": "manual",
+    "claudeCode.hideOnboarding": true,
+    "python.analysis.typeCheckingMode": "basic"
 }

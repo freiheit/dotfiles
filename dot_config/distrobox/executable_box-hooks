@@ -9,6 +9,9 @@
 # rawhide) gets Terra and the Fastly rpm, and only fedora exports fastly.
 # ubuntu needs no hooks; tools missing from its archive (uv, chezmoi) are
 # skipped, not fetched.
+# Both hooks run on every container start, not once at create, so each branch
+# guards on the rpm it installs (2026-10-15: the unguarded --repofrompath terra
+# collided with the installed terra.repo and every start exited 1).
 set -eu
 case "$1" in
 pre)
@@ -18,7 +21,7 @@ pre)
 	fi
 	;;
 init)
-	if command -v dnf > /dev/null; then
+	if command -v dnf > /dev/null && ! rpm -q fastly > /dev/null 2>&1; then
 		# Fastly ships no dnf repo, only versioned rpms on GitHub releases. The
 		# rpm installs to /usr/local/bin.
 		dnf install -y "$(curl -fsSL https://api.github.com/repos/fastly/cli/releases/latest | grep -o 'https://[^"]*_linux_amd64\.rpm')"

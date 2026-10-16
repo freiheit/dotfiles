@@ -18,6 +18,12 @@ nvidia=true
 # that distrobox-enter waits for. Seen 2026-10-02: "Suppressed 4483 messages
 # from user@1000.service", assemble hung until killed.
 additional_flags=--log-driver=k8s-file --log-opt max-size=100mb
+# The ubuntu-toolbox image's org.opencontainers.image.description label spans
+# several lines, and distrobox-list splits `podman ps` output on newlines, so
+# the spill-over printed as a ghost box and `distrobox upgrade --all` tried to
+# enter it (2026-10-15; upstream PR 89luca89/distrobox#2221 still open). A
+# one-line container label overrides the image's.
+additional_flags=--label org.opencontainers.image.description=ubuntu
 # Own fontconfig cache per box. Host and box share $HOME but have different
 # /usr/share/fonts, and fontconfig names cache files by a hash of the directory
 # path, so a shared cache makes host Electron apps (vesktop, Discord) read font

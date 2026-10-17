@@ -52,6 +52,8 @@ renovate.json
 # deckdex: same, plus Steam present. Ignoring the external skips the download.
 .local/bin/deckdex
 .chezmoiscripts/deckdex-cron.sh
+# Steam env (monolith's /var/slow library shared into the steamrt3c container).
+.config/environment.d/steam.conf
 {{ end -}}
 
 {{ $claude := and (lookPath "claude") (ne .chezmoi.username "root") -}}

@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily deckdex Steam collections sync
+
+[Timer]
+OnCalendar=*-*-* 04:00
+
+[Install]
+WantedBy=timers.target

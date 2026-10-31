@@ -52,6 +52,9 @@ renovate.json
 # deckdex: same, plus Steam present. Ignoring the external skips the download.
 .local/bin/deckdex
 .chezmoiscripts/deckdex-cron.sh
+.config/systemd/user/deckdex-sync.service
+.config/systemd/user/deckdex-sync.timer
+.config/systemd/user/timers.target.wants/deckdex-sync.timer
 # Steam env (monolith's /var/slow library shared into the steamrt3c container).
 .config/environment.d/steam.conf
 {{ end -}}

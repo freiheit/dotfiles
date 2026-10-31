@@ -8,7 +8,7 @@ Documentation=https://github.com/nobodys-tools/DeckDex
 Type=oneshot
 # Skip while a game runs. game-active (openvox-control) exits 0 mid-game; where
 # it is absent sh exits 127, `!` makes that 0, and the sync runs.
-ExecCondition=/bin/sh -c '! /usr/local/bin/game-active'
+ExecCondition=/bin/sh -c '! /var/lib/freiheit/game-active'
 # --kill-steam closes Steam to write; relaunch it after, only if it was running.
 # systemd-run so Steam outlives this oneshot's cgroup.
 ExecStart=/bin/sh -c 'pgrep -x steam >/dev/null; was=$$?; \

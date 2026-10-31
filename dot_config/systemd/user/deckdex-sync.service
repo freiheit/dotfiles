@@ -1,0 +1,16 @@
+# ProtonDB-tier sync of Steam collections. The API key is read from
+# ~/.config/deckdex/config.toml, so it stays off the command line.
+[Unit]
+Description=deckdex Steam collections sync
+Documentation=https://github.com/nobodys-tools/DeckDex
+
+[Service]
+Type=oneshot
+# Skip while a game runs: Steam starts every game under `reaper SteamLaunch AppId=N`.
+ExecCondition=/bin/sh -c '! pgrep -f "[S]teamLaunch AppId=" >/dev/null'
+# --kill-steam closes Steam to write; relaunch it after, only if it was running.
+# systemd-run so Steam outlives this oneshot's cgroup.
+ExecStart=/bin/sh -c 'pgrep -x steam >/dev/null; was=$$?; \
+    %h/.local/bin/deckdex sync --preset per-tier --native --kill-steam --yes; rc=$$?; \
+    [ $$was -ne 0 ] || systemd-run --user --collect --quiet steam -silent; exit $$rc'
+Nice=19

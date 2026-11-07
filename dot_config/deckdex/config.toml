@@ -1,0 +1,33 @@
+# Steam Web API key comes from DECKDEX_STEAM_API_KEY in ~/.config/deckdex/env
+# (unmanaged, written by hand once per host; loaded by deckdex-sync.service).
+#
+# Letters interleave with the hand-made "A: Deck Verified", "B: Deck Playable",
+# "D: Deck Maybe" collections; within a letter "Deck" sorts before "ProtonDB".
+
+[[collection]]
+name  = "A: ProtonDB Native"
+tiers = ["native"]
+
+[[collection]]
+name  = "A: ProtonDB Platinum"
+tiers = ["platinum"]
+
+[[collection]]
+name  = "B: ProtonDB Gold"
+tiers = ["gold"]
+
+[[collection]]
+name  = "C: ProtonDB Silver"
+tiers = ["silver"]
+
+[[collection]]
+name  = "D: ProtonDB Bronze"
+tiers = ["bronze"]
+
+[[collection]]
+name  = "E: ProtonDB Pending"
+tiers = ["pending"]
+
+[[collection]]
+name  = "F: ProtonDB Borked"
+tiers = ["borked"]

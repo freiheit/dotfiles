@@ -9,9 +9,6 @@
 # Holds the GitHub OAuth token. .config/gh/config.yml is managed; this is not.
 .config/gh/hosts.yml
 
-# Holds the Steam Web API key (`[steam] api_key`); written by hand once per host, like gh/hosts.yml.
-.config/deckdex/config.toml
-
 renovate.json
 
 # Claude Code secrets and machine state; the app owns these, never managed.
@@ -51,6 +48,7 @@ renovate.json
 {{ if not (and $workstation (lookPath "steam")) -}}
 # deckdex: same, plus Steam present. Ignoring the external skips the download.
 .local/bin/deckdex
+.config/deckdex
 .chezmoiscripts/deckdex-cron.sh
 .config/systemd/user/deckdex-sync.service
 .config/systemd/user/deckdex-sync.timer
